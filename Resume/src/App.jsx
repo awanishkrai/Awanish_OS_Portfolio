@@ -8,7 +8,7 @@ import Skills from './components/Apps/Skills';
 import Certifications from './components/Apps/Certifications';
 import Contact from './components/Apps/Contact';
 import Terminal from './components/Apps/Terminal';
-import TopBar from './components/Topbar';
+import TopBar from 'src/components/TopBar';
 
 export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(true);
