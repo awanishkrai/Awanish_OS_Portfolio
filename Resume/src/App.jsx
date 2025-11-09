@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import TopBar from './components/topbar';
 import Dock from './components/Dock';
 import Window from './components/Window';
-import About from './components/Apps/about';
+import About from './components/Apps/About';
 import Projects from './components/Apps/Projects';
 import Skills from './components/Apps/Skills';
 import Certifications from './components/Apps/Certifications';
 import Contact from './components/Apps/Contact';
 import Terminal from './components/Apps/Terminal';
+import TopBar from './components/Topbar';
 
 export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(true);
