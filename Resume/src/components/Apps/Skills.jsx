@@ -7,7 +7,7 @@ const Skills = ({ isDarkMode }) => {
   return (
     <div className={`p-8 space-y-8 ${isDarkMode ? 'text-slate-100' : 'text-slate-900'}`}>
       <div>
-        <h2 className="text-3xl font-bold text-orange-500 mb-2">Skills</h2>
+        <h2 className="text-3xl font-bold text-white mb-2">Skills</h2>
         <p className={`text-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
           Technologies and expertise
         </p>

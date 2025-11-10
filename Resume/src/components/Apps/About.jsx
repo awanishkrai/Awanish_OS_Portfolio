@@ -13,8 +13,8 @@ const About = ({ isDarkMode }) => {
     >
       {/* === Name + Title === */}
       <div className="space-y-3">
-        <h1 className="text-5xl font-bold text-red-500">{personal.name}</h1>
-        <h2 className="text-2xl font-semibold text-orange-400">
+        <h1 className="text-5xl  text-white">{personal.name}</h1>
+        <h2 className="text-xl  text-orange-400">
           {personal.title}
         </h2>
         <p

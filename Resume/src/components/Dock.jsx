@@ -7,7 +7,7 @@ const Dock = ({ onAppClick, isDarkMode, activeApps = [] }) => {
     { id: 'projects', icon: '📁', label: 'Projects' },
     { id: 'skills', icon: '⚙️', label: 'Skills' },
     { id: 'certs', icon: '🎓', label: 'Certifications' },
-    { id: 'contact', icon: '💌', label: 'Contact' },
+    { id: 'contact', icon: '📩', label: 'Contact' },
     { id: 'terminal', icon: '🖥️', label: 'Terminal' },
   ];
 

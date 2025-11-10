@@ -10,7 +10,6 @@ import Contact from './components/Apps/Contact';
 import Terminal from './components/Apps/Terminal';
 import TopBar from './components/TopBar';
 
-
 export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [windows, setWindows] = useState({});
@@ -19,28 +18,38 @@ export default function App() {
 
   const toggleTheme = () => setIsDarkMode(!isDarkMode);
 
+  // Open a window
   const openWindow = (appId) => {
-    if (windows[appId]) {
-      setWindowOrder([...windowOrder.filter((id) => id !== appId), appId]);
-    } else {
-      setWindows({ ...windows, [appId]: true });
-      setWindowOrder([...windowOrder, appId]);
-    }
+    setWindows((prev) => {
+      if (prev[appId]) return prev; // already open
+      return { ...prev, [appId]: true };
+    });
+
+    setWindowOrder((prev) => {
+      if (prev.includes(appId)) return [...prev.filter((id) => id !== appId), appId];
+      return [...prev, appId];
+    });
   };
 
+  // Close a window
   const closeWindow = (appId) => {
-    const newWindows = { ...windows };
-    delete newWindows[appId];
-    setWindows(newWindows);
-    setWindowOrder(windowOrder.filter((id) => id !== appId));
+    setWindows((prev) => {
+      const newWindows = { ...prev };
+      delete newWindows[appId];
+      return newWindows;
+    });
+
+    setWindowOrder((prev) => prev.filter((id) => id !== appId));
   };
 
+  // Minimize a window
   const minimizeWindow = (appId) => {
-    setWindowOrder(windowOrder.filter((id) => id !== appId));
+    setWindowOrder((prev) => prev.filter((id) => id !== appId));
   };
 
+  // Bring window to front
   const focusWindow = (appId) => {
-    setWindowOrder([...windowOrder.filter((id) => id !== appId), appId]);
+    setWindowOrder((prev) => [...prev.filter((id) => id !== appId), appId]);
   };
 
   const appComponents = {
