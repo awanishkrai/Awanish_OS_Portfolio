@@ -1,58 +1,111 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { Terminal, FolderKanban, User, Award, Phone, Cpu } from "lucide-react";
+import React, { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { OS_APPS, getAppIcon } from "./DesktopIcons";
+import { Minus, X } from "lucide-react";
 
-const icons = {
-  terminal: <Terminal size={18} />,
-  projects: <FolderKanban size={18} />,
-  about: <User size={18} />,
-  skills: <Cpu size={18} />,
-  certs: <Award size={18} />,
-  contact: <Phone size={18} />,
-};
+const Taskbar = ({ activeApps, onFocus, onMinimize, onClose, focusedApp, isDarkMode, windows }) => {
+  const [contextMenu, setContextMenu] = useState(null);
+  const menuRef = useRef(null);
 
-const Taskbar = ({ activeApps, onFocus, focusedApp, isDarkMode }) => {
+  useEffect(() => {
+    const handleClick = () => setContextMenu(null);
+    if (contextMenu) {
+      document.addEventListener("click", handleClick);
+      return () => document.removeEventListener("click", handleClick);
+    }
+  }, [contextMenu]);
   return (
     <motion.div
-      initial={{ y: 40, opacity: 0 }}
+      initial={{ y: 24, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className={`fixed bottom-3 left-1/2 -translate-x-1/2 px-4 py-2 flex gap-3 rounded-2xl backdrop-blur-xl border shadow-lg z-[60] ${
+      transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+      className={`fixed bottom-3 left-1/2 -translate-x-1/2 px-4 py-2 flex gap-3 rounded-2xl backdrop-blur-xl border shadow-lg z-[9000] taskbar ${
         isDarkMode
-          ? "bg-slate-900/70 border-slate-700"
+          ? "bg-[#111116]/80 border-white/10"
           : "bg-white/60 border-slate-200"
       }`}
     >
-      {activeApps.length === 0 ? (
-        <span
-          className={`text-xs px-2 italic ${
-            isDarkMode ? "text-slate-400" : "text-slate-500"
-          }`}
-        >
-          No active apps
-        </span>
-      ) : (
-        activeApps.map((appId) => (
-          <motion.button
-            key={appId}
-            onClick={() => onFocus(appId)}
-            whileHover={{ scale: 1.1 }}
+      {OS_APPS.map((app) => {
+        const isOpen = !!windows[app.id];
+        const isFocused = focusedApp === app.id && !windows[app.id]?.minimized;
+        const isMinimized = isOpen && windows[app.id]?.minimized;
+
+        return (
+          <motion.div
+            key={app.id}
+            onClick={() => (isFocused ? onMinimize(app.id) : onFocus(app.id))}
+            onContextMenu={(e) => {
+              e.preventDefault();
+              if (!isOpen) return;
+              setContextMenu({
+                appId: app.id,
+                x: e.clientX,
+                y: e.clientY,
+              });
+            }}
+            whileHover={{ y: -6, scale: 1.15 }}
             whileTap={{ scale: 0.95 }}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-sm font-medium transition-all ${
-              focusedApp === appId
-                ? isDarkMode
-                  ? "bg-orange-500/80 text-white"
-                  : "bg-orange-400 text-white"
-                : isDarkMode
-                ? "bg-slate-800/60 hover:bg-slate-700 text-slate-200"
-                : "bg-white/70 hover:bg-slate-100 text-slate-800"
+            className={`relative flex flex-col items-center group w-12 h-12 justify-center cursor-pointer transition-all ${
+              isOpen && !isFocused && isMinimized ? 'opacity-70 saturate-50' : ''
             }`}
           >
-            {icons[appId]}
-            <span className="capitalize">{appId}</span>
-          </motion.button>
-        ))
-      )}
+            {/* The Icon */}
+            <div className="p-2 rounded-xl bg-white/5 shadow-sm border border-white/5 drop-shadow-md">
+              {getAppIcon(app.id, 24)}
+            </div>
+            
+            {/* Tooltip on hover */}
+            <div className={`absolute -top-12 px-3 py-1.5 text-xs font-medium rounded shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap ${isDarkMode ? "bg-slate-800 text-white" : "bg-white text-black"}`}>
+              {app.label}
+            </div>
+
+            {/* Indicator Dot */}
+            {isOpen && (
+              <div className={`absolute -bottom-1 w-1.5 h-1.5 rounded-full transition-colors ${
+                isFocused ? 'bg-[#53d8fb] shadow-[0_0_8px_#53d8fb]' : 'bg-gray-500'
+              }`} />
+            )}
+          </motion.div>
+        );
+      })}
+
+      {/* Right-click context menu */}
+      <AnimatePresence>
+        {contextMenu && (
+          <motion.div
+            ref={menuRef}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className={`fixed py-1 min-w-[140px] rounded-lg shadow-xl border z-[9100] ${
+              isDarkMode ? "bg-[#1e1e1e] border-white/10" : "bg-white border-slate-200"
+            }`}
+            style={{ left: contextMenu.x, top: contextMenu.y, transform: "translateY(-100%) translateY(-8px)" }}
+          >
+            <button
+              onClick={() => { onFocus(contextMenu.appId); setContextMenu(null); }}
+              className="w-full flex items-center gap-2 px-3 py-2 text-left text-sm hover:bg-white/10 transition-colors"
+            >
+              Restore
+            </button>
+            <button
+              onClick={() => { onMinimize(contextMenu.appId); setContextMenu(null); }}
+              className="w-full flex items-center gap-2 px-3 py-2 text-left text-sm hover:bg-white/10 transition-colors"
+            >
+              <Minus size={14} />
+              Minimize
+            </button>
+            <div className="border-t border-white/10 my-1" />
+            <button
+              onClick={() => { onClose(contextMenu.appId); setContextMenu(null); }}
+              className="w-full flex items-center gap-2 px-3 py-2 text-left text-sm hover:bg-red-500/20 text-red-400 transition-colors"
+            >
+              <X size={14} />
+              Close
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 };

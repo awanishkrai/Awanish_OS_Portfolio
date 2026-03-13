@@ -1,15 +1,31 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&family=Ubuntu+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&family=Ubuntu+Mono:wght@400;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
 @import "tailwindcss";
+
+@theme {
+  --color-os-bg: #0d1117;
+  --color-os-cyan: #53d8fb;
+  --color-os-green: #39d353;
+  --color-os-pink: #e94560;
+}
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+}
 
 body {
   font-family: 'Ubuntu', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #0d1117;
 }
 
 ::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -17,10 +33,33 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #E95420;
+  background: #334155;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #d94510;
+  background: #475569;
+}
+
+.scanlines {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0),
+    rgba(255,255,255,0) 50%,
+    rgba(0,0,0,0.03) 50%,
+    rgba(0,0,0,0.03)
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 9998;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scanlines { display: none; }
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }

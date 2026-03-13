@@ -1,6 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { X, Minus, Square } from "lucide-react";
+
+const DESKTOP_MARGIN = 24;
+const TOP_BAR_CLEARANCE = 56;
+const TASKBAR_CLEARANCE = 88;
 
 const Window = ({
   id,
@@ -19,7 +23,8 @@ const Window = ({
   });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
-  const [isMaximized, setIsMaximized] = useState(false);
+  const [isMaximized, setIsMaximized] = useState(true);
+  const [snappedSide, setSnappedSide] = useState(null); // 'left' | 'right'
 
   const handleMouseDown = (e) => {
     if (e.target.closest("[data-no-drag]")) return;
@@ -33,17 +38,43 @@ const Window = ({
     onFocus(id);
   };
 
-  // Dragging logic
+  // Dragging logic + edge snapping (left/right half, top = maximize)
+  const snapRef = useRef(null);
+  const SNAP_THRESHOLD = 60;
+
   useEffect(() => {
     const handleMouseMove = (e) => {
       if (!isDragging) return;
+      if (e.clientX < SNAP_THRESHOLD && e.clientY < 80) snapRef.current = "max";
+      else if (e.clientX < SNAP_THRESHOLD) snapRef.current = "left";
+      else if (e.clientX > window.innerWidth - SNAP_THRESHOLD) snapRef.current = "right";
+      else snapRef.current = null;
       setPosition({
         x: e.clientX - dragStart.x,
         y: e.clientY - dragStart.y,
       });
     };
 
-    const handleMouseUp = () => setIsDragging(false);
+    const handleMouseUp = () => {
+      if (!isDragging) return;
+      const snap = snapRef.current;
+      setIsDragging(false);
+      snapRef.current = null;
+      if (snap === "max") {
+        setIsMaximized(true);
+        setSnappedSide(null);
+      } else if (snap === "left") {
+        setIsMaximized(false);
+        setSnappedSide("left");
+        setPosition({ x: 4, y: Math.max(TOP_BAR_CLEARANCE, 4) });
+      } else if (snap === "right") {
+        setIsMaximized(false);
+        setSnappedSide("right");
+        setPosition({ x: window.innerWidth / 2 - 4, y: Math.max(TOP_BAR_CLEARANCE, 4) });
+      } else {
+        setSnappedSide(null);
+      }
+    };
 
     if (isDragging) {
       window.addEventListener("mousemove", handleMouseMove);
@@ -58,88 +89,109 @@ const Window = ({
   // Toggle maximize / restore
   const toggleMaximize = () => {
     setIsMaximized(!isMaximized);
+    setSnappedSide(null);
   };
 
   // style for window size and position
-  const windowStyle = isMaximized
-    ? {
-        left: 0,
-        top: 0,
-        width: "100vw",
-        height: "100vh",
-        zIndex,
-        borderRadius: 0,
-      }
-    : {
-        left: `${position.x}px`,
-        top: `${position.y}px`,
-        width: "680px",
-        height: "540px",
-        zIndex,
-        borderRadius: "1rem",
-      };
+  const windowStyle =
+    isMaximized
+      ? {
+          left: `${DESKTOP_MARGIN / 2}px`,
+          top: `${TOP_BAR_CLEARANCE}px`,
+          width: `calc(100vw - ${DESKTOP_MARGIN}px)`,
+          height: `calc(100vh - ${TOP_BAR_CLEARANCE + TASKBAR_CLEARANCE}px)`,
+          zIndex,
+          borderRadius: "1rem",
+          borderWidth: "1.5px",
+        }
+      : snappedSide === "left"
+      ? {
+          left: "4px",
+          top: `${TOP_BAR_CLEARANCE}px`,
+          width: "calc(50vw - 8px)",
+          height: `calc(100vh - ${TOP_BAR_CLEARANCE + TASKBAR_CLEARANCE}px)`,
+          zIndex,
+          borderRadius: "1rem",
+          borderWidth: "1.5px",
+        }
+      : snappedSide === "right"
+      ? {
+          left: "calc(50vw + 4px)",
+          top: `${TOP_BAR_CLEARANCE}px`,
+          width: "calc(50vw - 8px)",
+          height: `calc(100vh - ${TOP_BAR_CLEARANCE + TASKBAR_CLEARANCE}px)`,
+          zIndex,
+          borderRadius: "1rem",
+          borderWidth: "1.5px",
+        }
+      : {
+          left: `${position.x}px`,
+          top: `${position.y}px`,
+          width: "680px",
+          height: "540px",
+          zIndex,
+          borderRadius: "1rem",
+          borderWidth: "1.5px",
+        };
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.95, y: 15 }}
+      initial={{ opacity: 0, scale: 0.96, y: 12 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.9, y: 15 }}
-      transition={{ duration: 0.25, ease: "easeOut" }}
-      className={`fixed shadow-[0_8px_40px_rgba(0,0,0,0.45)] border backdrop-blur-xl transition-all ${
-        isDarkMode
+      exit={{ opacity: 0, scale: 0.94, y: 12 }}
+      transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+      className={`window-surface fixed shadow-[0_20px_60px_rgba(0,0,0,0.4),0_0_0_1px_rgba(83,216,251,0.05)] border backdrop-blur-2xl transition-all ${isDarkMode
           ? "bg-[rgba(25,25,35,0.85)] border-slate-700"
           : "bg-[rgba(255,255,255,0.7)] border-slate-200"
-      }`}
+        }`}
       style={windowStyle}
       onClick={() => onFocus(id)}
     >
       {/* Title Bar */}
       <div
         onMouseDown={handleMouseDown}
-        className={`h-11 flex items-center justify-between px-4 cursor-move select-none border-b ${
-          isDarkMode
-            ? "bg-gradient-to-r from-orange-500/80 to-amber-400/80 border-slate-700"
-            : "bg-gradient-to-r from-orange-400/90 to-amber-300/90 border-slate-200"
-        }`}
+        className={`h-11 flex items-center px-4 cursor-move select-none border-b ${isDarkMode
+            ? "bg-[#161b22] border-[#30363d]"
+            : "bg-slate-200 border-slate-300"
+          }`}
       >
-        <span className="text-white font-semibold text-sm tracking-wide">
+        <div className="flex gap-2 w-16" data-no-drag>
+          {/* Close - Red */}
+          <button
+            onClick={(e) => { e.stopPropagation(); onClose(id); }}
+            className="w-3.5 h-3.5 rounded-full bg-[#ff5f56] hover:bg-[#ff5f56]/80 flex items-center justify-center group"
+          >
+            <X size={10} className="text-black/60 opacity-0 group-hover:opacity-100" />
+          </button>
+
+          {/* Minimize - Yellow */}
+          <button
+            onClick={(e) => { e.stopPropagation(); onMinimize(id); }}
+            className="w-3.5 h-3.5 rounded-full bg-[#ffbd2e] hover:bg-[#ffbd2e]/80 flex items-center justify-center group"
+          >
+            <Minus size={10} className="text-black/60 opacity-0 group-hover:opacity-100" />
+          </button>
+
+          {/* Maximize / Restore - Green */}
+          <button
+            onClick={(e) => { e.stopPropagation(); toggleMaximize(); }}
+            className="w-3.5 h-3.5 rounded-full bg-[#27c93f] hover:bg-[#27c93f]/80 flex items-center justify-center group"
+          >
+            <Square size={8} className="text-black/60 opacity-0 group-hover:opacity-100" />
+          </button>
+        </div>
+
+        <div className="flex-1 text-center pr-16 text-[#8b949e] font-semibold text-xs tracking-wide">
           {title}
-        </span>
-
-        <div className="flex gap-1.5" data-no-drag>
-          {/* Minimize */}
-          <button
-            onClick={() => onMinimize(id)}
-            className="p-1.5 rounded-lg text-white/80 hover:text-white hover:bg-white/20 transition-all"
-          >
-            <Minus size={16} />
-          </button>
-
-          {/* Maximize / Restore */}
-          <button
-            onClick={toggleMaximize}
-            className="p-1.5 rounded-lg text-white/80 hover:text-white hover:bg-white/20 transition-all"
-          >
-            <Square size={14} />
-          </button>
-
-          {/* Close */}
-          <button
-            onClick={() => onClose(id)}
-            className="p-1.5 rounded-lg text-white/80 hover:text-white hover:bg-red-500/70 transition-all"
-          >
-            <X size={16} />
-          </button>
         </div>
       </div>
 
       {/* Content */}
       <div
-        className={`h-[calc(100%-2.75rem)] overflow-auto ${
-          isDarkMode
-            ? "bg-gradient-to-br from-slate-900/80 to-slate-800/70 text-slate-100"
-            : "bg-gradient-to-br from-slate-50 to-white text-slate-800"
-        } ${isMaximized ? "rounded-none" : "rounded-b-2xl"}`}
+        className={`h-[calc(100%-2.75rem)] overflow-auto ${isDarkMode
+            ? "bg-linear-to-br from-slate-900/80 to-slate-800/70 text-slate-100"
+            : "bg-linear-to-br from-slate-50 to-white text-slate-800"
+          } ${isMaximized ? "rounded-none" : "rounded-b-2xl"}`}
       >
         {children}
       </div>

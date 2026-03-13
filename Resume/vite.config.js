@@ -4,7 +4,18 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
   build: {
-    outDir: "dist", // output folder for production
+    outDir: "dist",
+    minify: "esbuild",
+    cssMinify: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          "vendor-motion": ["framer-motion"],
+          "vendor-icons": ["lucide-react"],
+        },
+      },
+    },
+    target: "esnext",
   },
   server: {
     open: true,
