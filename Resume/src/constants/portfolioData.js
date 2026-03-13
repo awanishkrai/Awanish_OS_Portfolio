@@ -7,6 +7,33 @@ export const PORTFOLIO_DATA = {
     phone: "+91-6283642238",
     location: "India",
   },
+  education: {
+    current: {
+      program: "B.Tech (Computer Science)",
+      institution: "—",
+      specialization: "Computer Science",
+      cgpa: "—",
+      expectedGraduation: "2027",
+      highlights: [
+        "Core CS: DSA, Operating Systems, DBMS, Computer Networks",
+        "Hands-on projects across web + backend systems",
+      ],
+    },
+    previous: [
+      {
+        level: "Class XII",
+        institution: "—",
+        year: "—",
+        score: "—",
+      },
+      {
+        level: "Class X",
+        institution: "—",
+        year: "—",
+        score: "—",
+      },
+    ],
+  },
   socials: {
     github: "https://github.com/awanishkrai",
     linkedin: "https://linkedin.com/in/awanish-rai-9296ab221",

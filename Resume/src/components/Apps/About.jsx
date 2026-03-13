@@ -39,6 +39,30 @@ export default function About({ isDarkMode }) {
         </div>
 
         <div className="flex-1">
+          <div className="mb-5 rounded-xl border border-white/10 bg-black/20 backdrop-blur-sm p-4">
+            <div className="text-white font-bold mb-2">About me</div>
+            <ul className="list-disc pl-5 space-y-1">
+              <li className="text-[#8b949e]">
+                <span className="text-white/90 font-semibold">Brief personal intro</span>
+                <span className="text-[#8b949e]">
+                  : I’m {personal.name || "Awanish Kumar Rai"}, a {personal.subtitle || "Software Engineer | Competitive Programmer"} who enjoys building clean, interactive web experiences and solving problems under constraints.
+                </span>
+              </li>
+              <li className="text-[#8b949e]">
+                <span className="text-white/90 font-semibold">Academic background &amp; career goals</span>
+                <span className="text-[#8b949e]">
+                  : {personal.title || "Computer Science Undergraduate"} with a focus on strong CS fundamentals (DSA, OS, networking). My goal is to grow into a backend/full‑stack engineer who ships reliable systems and polished UX.
+                </span>
+              </li>
+              <li className="text-[#8b949e]">
+                <span className="text-white/90 font-semibold">Unique qualities or interests</span>
+                <span className="text-[#8b949e]">
+                  : Competitive programming mindset, performance-first thinking, and a love for developer tooling. I’m especially interested in Linux, system design, and building products that feel “fast” and intuitive.
+                </span>
+              </li>
+            </ul>
+          </div>
+
           <div className="mb-2">
             <span className="text-[#53d8fb] font-bold">visitor</span>
             <span className="text-white">@</span>

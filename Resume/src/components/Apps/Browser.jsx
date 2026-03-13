@@ -4,6 +4,7 @@ import { PORTFOLIO_DATA } from '../../constants/portfolioData';
 
 const Browser = ({ isDarkMode }) => {
   const personal = PORTFOLIO_DATA?.personal ?? {};
+  const education = PORTFOLIO_DATA?.education ?? {};
   const [url, setUrl] = useState('https://awanish.dev');
   const [inputUrl, setInputUrl] = useState('https://awanish.dev');
   const [isLoading, setIsLoading] = useState(false);
@@ -110,7 +111,7 @@ const Browser = ({ isDarkMode }) => {
               <section id="about" className="min-h-[60vh] flex flex-col justify-center">
                 <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-5">
                   Building{" "}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#53d8fb] to-[#a371f7]">
+                  <span className="text-transparent bg-clip-text bg-linear-to-r from-[#53d8fb] to-[#a371f7]">
                     digital experiences
                   </span>{" "}
                   with purpose.
@@ -156,6 +157,49 @@ const Browser = ({ isDarkMode }) => {
                   <div className="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center mb-4"><Shield size={24} /></div>
                   <h3 className="text-lg font-bold mb-2">Secure Backend</h3>
                   <p className="text-slate-600 text-sm">Developing scalable REST & GraphQL APIs backed by robust SQL & NoSQL architectures.</p>
+                </div>
+              </section>
+
+              <section id="education" className="space-y-6 scroll-mt-24">
+                <div className="flex items-end justify-between gap-4">
+                  <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Education</h2>
+                  <div className="text-xs text-slate-400">Updated from PortfolioOS profile</div>
+                </div>
+
+                <div className="rounded-2xl bg-white border border-slate-100 shadow-sm p-6 space-y-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                    <div className="font-semibold text-slate-900">
+                      {education?.current?.program || "B.Tech (Computer Science)"}
+                      <span className="text-slate-400 font-normal">{" "}•{" "}</span>
+                      <span className="text-slate-600 font-medium">
+                        {education?.current?.institution || "—"}
+                      </span>
+                    </div>
+                    <div className="text-sm text-slate-500">
+                      {education?.current?.expectedGraduation ? `Expected ${education.current.expectedGraduation}` : "Expected —"}
+                    </div>
+                  </div>
+
+                  <ul className="text-sm text-slate-700 space-y-1.5">
+                    <li>
+                      <span className="font-semibold">Current B.Tech program details</span>
+                      {" "}- {education?.current?.program || "B.Tech (CSE)"} • {education?.current?.institution || "—"}
+                    </li>
+                    <li>
+                      <span className="font-semibold">Specialization &amp; CGPA/percentage</span>
+                      {" "}- {education?.current?.specialization || "Computer Science"} • CGPA: {education?.current?.cgpa || "—"}
+                    </li>
+                    <li>
+                      <span className="font-semibold">Highlight relevant coursework &amp; projects</span>
+                      {" "}- {(education?.current?.highlights || []).join(" • ") || "—"}
+                    </li>
+                    <li>
+                      <span className="font-semibold">Include details of previous education</span>
+                      {" "}- {(education?.previous || [])
+                        .map((e) => `${e.level}: ${e.institution || "—"} (${e.year || "—"}) • ${e.score || "—"}`)
+                        .join(" | ") || "—"}
+                    </li>
+                  </ul>
                 </div>
               </section>
             </main>
