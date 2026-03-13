@@ -1,24 +1,102 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ArrowLeft, ArrowRight, RotateCw, Home, Lock, Star, Menu, Monitor, Code, Shield } from 'lucide-react';
 import { PORTFOLIO_DATA } from '../../constants/portfolioData';
+
+const HOME_URL = 'https://awanish.dev';
+
+const normalizeUrl = (value) => {
+  if (!value) return HOME_URL;
+  const trimmed = value.trim();
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  return `https://${trimmed}`;
+};
 
 const Browser = ({ isDarkMode }) => {
   const personal = PORTFOLIO_DATA?.personal ?? {};
   const education = PORTFOLIO_DATA?.education ?? {};
-  const [url, setUrl] = useState('https://awanish.dev');
-  const [inputUrl, setInputUrl] = useState('https://awanish.dev');
+  const [url, setUrl] = useState(HOME_URL);
+  const [inputUrl, setInputUrl] = useState(HOME_URL);
   const [isLoading, setIsLoading] = useState(false);
+  const [history, setHistory] = useState([HOME_URL]);
+  const [historyIndex, setHistoryIndex] = useState(0);
+  const [reloadKey, setReloadKey] = useState(0);
+  const contentRef = useRef(null);
 
   const handleNavigate = (e) => {
     e.preventDefault();
+    if (!inputUrl.trim()) return;
+    const next = normalizeUrl(inputUrl);
+    if (next === url) {
+      setIsLoading(true);
+      setReloadKey((k) => k + 1);
+      setTimeout(() => setIsLoading(false), 400);
+      return;
+    }
     setIsLoading(true);
-    setUrl(inputUrl);
-    setTimeout(() => setIsLoading(false), 800);
+    setUrl(next);
+    setHistory((prev) => {
+      const base = prev.slice(0, historyIndex + 1);
+      return [...base, next];
+    });
+    setHistoryIndex((idx) => idx + 1);
   };
 
   const handleReload = () => {
     setIsLoading(true);
-    setTimeout(() => setIsLoading(false), 800);
+    setReloadKey((k) => k + 1);
+    setTimeout(() => setIsLoading(false), 400);
+  };
+
+  const handleBack = () => {
+    if (historyIndex === 0) return;
+    const nextIndex = historyIndex - 1;
+    const nextUrl = history[nextIndex];
+    setHistoryIndex(nextIndex);
+    setUrl(nextUrl);
+    setInputUrl(nextUrl);
+    setIsLoading(true);
+    setTimeout(() => setIsLoading(false), 300);
+  };
+
+  const handleForward = () => {
+    if (historyIndex >= history.length - 1) return;
+    const nextIndex = historyIndex + 1;
+    const nextUrl = history[nextIndex];
+    setHistoryIndex(nextIndex);
+    setUrl(nextUrl);
+    setInputUrl(nextUrl);
+    setIsLoading(true);
+    setTimeout(() => setIsLoading(false), 300);
+  };
+
+  const handleHome = () => {
+    if (url === HOME_URL) return;
+    const next = HOME_URL;
+    setInputUrl(next);
+    setIsLoading(true);
+    setUrl(next);
+    setHistory((prev) => {
+      const base = prev.slice(0, historyIndex + 1);
+      return [...base, next];
+    });
+    setHistoryIndex((idx) => idx + 1);
+    setTimeout(() => setIsLoading(false), 300);
+  };
+
+  useEffect(() => {
+    if (url.includes('awanish.dev')) {
+      setIsLoading(false);
+    }
+  }, [url]);
+
+  // Scroll to section within simulated browser content
+  const scrollToSection = (sectionId) => {
+    const container = contentRef.current;
+    if (!container) return;
+    const el = container.querySelector(`#${sectionId}`);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   };
 
   return (
@@ -27,15 +105,8 @@ const Browser = ({ isDarkMode }) => {
       {/* Browser Chrome Toolbar */}
       <div className={`flex flex-col border-b ${isDarkMode ? 'bg-[#252526] border-black/40' : 'bg-slate-200 border-slate-300'}`}>
         
-        {/* Tabs area (mock) */}
-        <div className="flex h-10 items-end px-2 gap-1 overflow-hidden mt-1">
-          {/* Window controls (fake close / minimize / maximize) */}
-          <div className="flex items-center gap-1 h-8 mr-2">
-            <span className="w-3 h-3 rounded-full bg-[#ff5f56]" />
-            <span className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
-            <span className="w-3 h-3 rounded-full bg-[#27c93f]" />
-          </div>
-
+        {/* Tabs area */}
+        <div className="flex h-9 items-end px-2 gap-1 overflow-hidden">
           <div className={`flex items-center gap-2 max-w-[260px] w-full h-8 px-3 rounded-t-lg text-xs border-t border-x ${isDarkMode ? 'bg-[#1e1e1e] border-white/5 text-slate-200' : 'bg-slate-100 border-slate-300 text-slate-800'}`}>
             <Star size={14} className="text-[#53d8fb]" />
             <span className="truncate">Awanish Kumar Rai | Portfolio</span>
@@ -48,16 +119,34 @@ const Browser = ({ isDarkMode }) => {
         {/* Navigation Bar */}
         <div className={`flex items-center gap-2 p-2 h-12 ${isDarkMode ? 'bg-[#333333]' : 'bg-white'}`}>
           <div className="flex items-center gap-1">
-            <button className="p-1.5 rounded hover:bg-black/10 transition-colors disabled:opacity-30" disabled>
+            <button
+              onClick={handleBack}
+              className={`p-1.5 rounded transition-colors disabled:opacity-30 ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-black/10'}`}
+              disabled={historyIndex === 0}
+              title="Go back"
+            >
               <ArrowLeft size={16} />
             </button>
-            <button className="p-1.5 rounded hover:bg-black/10 transition-colors disabled:opacity-30" disabled>
+            <button
+              onClick={handleForward}
+              className={`p-1.5 rounded transition-colors disabled:opacity-30 ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-black/10'}`}
+              disabled={historyIndex >= history.length - 1}
+              title="Go forward"
+            >
               <ArrowRight size={16} />
             </button>
-            <button onClick={handleReload} className={`p-1.5 rounded hover:bg-black/10 transition-colors ${isLoading ? 'animate-spin' : ''}`}>
+            <button
+              onClick={handleReload}
+              className={`p-1.5 rounded transition-colors ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-black/10'} ${isLoading ? 'animate-spin' : ''}`}
+              title="Reload"
+            >
               <RotateCw size={16} />
             </button>
-            <button className="p-1.5 rounded hover:bg-black/10 transition-colors ml-1">
+            <button
+              onClick={handleHome}
+              className={`p-1.5 rounded transition-colors ml-1 ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-black/10'}`}
+              title="Home"
+            >
               <Home size={16} />
             </button>
           </div>
@@ -79,7 +168,7 @@ const Browser = ({ isDarkMode }) => {
           {/* Tools Menu */}
           <div className="flex items-center gap-1">
             <img src="/profile.png" alt="Profile" className="w-6 h-6 rounded-full mx-1 object-cover" onError={(e) => { e.target.src = 'https://github.com/awanishkrai.png'; }} />
-            <button className="p-1.5 rounded hover:bg-black/10 transition-colors">
+            <button className={`p-1.5 rounded transition-colors ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-black/10'}`}>
               <Menu size={18} />
             </button>
           </div>
@@ -96,14 +185,14 @@ const Browser = ({ isDarkMode }) => {
         
         {url.includes('awanish.dev') ? (
           // Simulated "webpage" inside the browser app
-          <div className="w-full h-full overflow-auto text-slate-900 absolute inset-0 bg-slate-50">
-            <header className="fixed top-0 w-full bg-white/85 backdrop-blur-md z-10 border-b border-slate-200 px-6 py-3 flex justify-between items-center shadow-sm">
+          <div ref={contentRef} className="w-full h-full overflow-auto text-slate-900 absolute inset-0 bg-slate-50">
+            <header className="sticky top-0 w-full bg-white/85 backdrop-blur-md z-10 border-b border-slate-200 px-6 py-3 flex justify-between items-center shadow-sm">
               <div className="font-bold text-lg sm:text-xl tracking-tighter">Awanish<span className="text-[#53d8fb]">.dev</span></div>
               <nav className="hidden md:flex gap-6 text-sm font-medium text-slate-600">
-                <a href="#about" className="hover:text-black">About</a>
-                <a href="#projects" className="hover:text-black">Projects</a>
-                <a href="#skills" className="hover:text-black">Skills</a>
-                <a href="#contact" className="hover:text-black">Contact</a>
+                <button onClick={() => scrollToSection('about')} className="hover:text-black cursor-pointer">About</button>
+                <button onClick={() => scrollToSection('features')} className="hover:text-black cursor-pointer">Projects</button>
+                <button onClick={() => scrollToSection('education')} className="hover:text-black cursor-pointer">Education</button>
+                <button onClick={() => window.dispatchEvent(new CustomEvent('app-request', { detail: 'contact' }))} className="hover:text-black cursor-pointer">Contact</button>
               </nav>
             </header>
             
@@ -205,11 +294,14 @@ const Browser = ({ isDarkMode }) => {
             </main>
           </div>
         ) : (
-          <div className="w-full h-full flex flex-col items-center justify-center text-slate-500 bg-slate-50">
-            <Shield size={64} className="mb-4 text-slate-300" />
-            <h2 className="text-2xl font-bold text-slate-700 mb-2">Site not found</h2>
-            <p className="text-sm max-w-md text-center">DNS address could not be found. Please check your URL and try again.</p>
-            <p className="text-xs mt-4 text-slate-400 font-mono">ERR_NAME_NOT_RESOLVED</p>
+          <div className="w-full h-full absolute inset-0 bg-slate-50">
+            <iframe
+              key={`${reloadKey}-${url}`}
+              src={url}
+              title={url}
+              className="w-full h-full border-0"
+              onLoad={() => setIsLoading(false)}
+            />
           </div>
         )}
       </div>
@@ -218,3 +310,4 @@ const Browser = ({ isDarkMode }) => {
 };
 
 export default Browser;
+

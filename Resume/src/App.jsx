@@ -13,6 +13,11 @@ import Terminal from './components/Apps/Terminal';
 import Resume from './components/Apps/Resume';
 import Browser from './components/Apps/Browser';
 import Settings from './components/Apps/Settings';
+import Certifications from './components/Apps/Certifications';
+import Contact from './components/Apps/Contact';
+import Skills from './components/Apps/Skills';
+import Education from './components/Apps/Education';
+import Competitive from './components/Apps/Competitive';
 import TopBar from './components/TopBar';
 
 
@@ -84,6 +89,11 @@ export default function App() {
     resume: <Resume isDarkMode={isDarkMode} />,
     browser: <Browser isDarkMode={isDarkMode} />,
     settings: <Settings isDarkMode={isDarkMode} toggleTheme={toggleTheme} />,
+    certificates: <Certifications isDarkMode={isDarkMode} />,
+    contact: <Contact isDarkMode={isDarkMode} />,
+    education: <Education isDarkMode={isDarkMode} />,
+    cp: <Competitive isDarkMode={isDarkMode} />,
+    skills: <Skills isDarkMode={isDarkMode} />,
   }), [isDarkMode, toggleTheme]);
 
   const appTitles = useMemo(() => ({
@@ -93,6 +103,11 @@ export default function App() {
     resume: 'Resume - Neovim',
     browser: 'Portfolio Browser',
     settings: 'Settings',
+    certificates: 'Certificates',
+    contact: 'Contact',
+    education: 'Education',
+    cp: 'Competitive Programming',
+    skills: 'Skills',
   }), []);
 
   const particles = useMemo(() =>
@@ -265,7 +280,7 @@ export default function App() {
         ))}
 
         {/* Desktop Components */}
-        <DesktopContextMenu 
+        <DesktopContextMenu
           onOpenTerminal={() => openWindow('terminal')}
           onChangeWallpaper={() => openWindow('settings')}
           onAbout={() => openWindow('about')}

@@ -5,6 +5,11 @@ import { asciiArt } from "./asciiArt";
 export default function About({ isDarkMode }) {
   const personal = PORTFOLIO_DATA?.personal ?? {};
   const socials = PORTFOLIO_DATA?.socials ?? {};
+  const skills = PORTFOLIO_DATA?.skills ?? {};
+  const certifications = PORTFOLIO_DATA?.certifications ?? [];
+  const profileSrc = `${import.meta.env.BASE_URL}profile.png`;
+
+  const skillGroups = Object.entries(skills);
 
   const bgClass = isDarkMode ? "bg-[#0d1117] text-[#8b949e]" : "bg-slate-100 text-slate-800";
   const linkClass = "hover:text-[#53d8fb] transition-colors";
@@ -21,13 +26,13 @@ export default function About({ isDarkMode }) {
         <div className="flex flex-col items-center gap-4">
           <div className="relative w-20 h-20">
             <img
-              src="/profile.png"
+              src={profileSrc}
               alt={personal.name || "Profile"}
               className="w-20 h-20 rounded-full object-cover border-2 border-[#53d8fb]/50 shadow-lg"
               onError={handleImageError}
             />
             <div
-              className="absolute inset-0 w-20 h-20 rounded-full bg-gradient-to-tr from-[#e94560] to-[#53d8fb] flex items-center justify-center text-2xl font-bold text-white border-2 border-[#53d8fb]/50"
+              className="absolute inset-0 w-20 h-20 rounded-full bg-linear-to-tr from-[#e94560] to-[#53d8fb] flex items-center justify-center text-2xl font-bold text-white border-2 border-[#53d8fb]/50"
               style={{ display: "none" }}
             >
               {(personal.name || "A").charAt(0)}
@@ -39,28 +44,56 @@ export default function About({ isDarkMode }) {
         </div>
 
         <div className="flex-1">
-          <div className="mb-5 rounded-xl border border-white/10 bg-black/20 backdrop-blur-sm p-4">
-            <div className="text-white font-bold mb-2">About me</div>
-            <ul className="list-disc pl-5 space-y-1">
-              <li className="text-[#8b949e]">
-                <span className="text-white/90 font-semibold">Brief personal intro</span>
-                <span className="text-[#8b949e]">
-                  : I’m {personal.name || "Awanish Kumar Rai"}, a {personal.subtitle || "Software Engineer | Competitive Programmer"} who enjoys building clean, interactive web experiences and solving problems under constraints.
-                </span>
-              </li>
-              <li className="text-[#8b949e]">
-                <span className="text-white/90 font-semibold">Academic background &amp; career goals</span>
-                <span className="text-[#8b949e]">
-                  : {personal.title || "Computer Science Undergraduate"} with a focus on strong CS fundamentals (DSA, OS, networking). My goal is to grow into a backend/full‑stack engineer who ships reliable systems and polished UX.
-                </span>
-              </li>
-              <li className="text-[#8b949e]">
-                <span className="text-white/90 font-semibold">Unique qualities or interests</span>
-                <span className="text-[#8b949e]">
-                  : Competitive programming mindset, performance-first thinking, and a love for developer tooling. I’m especially interested in Linux, system design, and building products that feel “fast” and intuitive.
-                </span>
-              </li>
-            </ul>
+          <div className="mb-5 rounded-2xl border border-white/10 bg-black/20 backdrop-blur-sm p-5">
+            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2">
+              <div>
+                <div className="text-white text-lg font-black tracking-tight">{personal.name || "Awanish Kumar Rai"}</div>
+                <div className="text-[#53d8fb] font-semibold">{personal.subtitle || "Software Engineer | Competitive Programmer"}</div>
+              </div>
+              <div className="text-xs text-white/60">
+                {personal.location || "India"} • {personal.email || "awanish420@gmail.com"}
+              </div>
+            </div>
+
+            <div className="mt-4 grid md:grid-cols-3 gap-3">
+              <div className="rounded-xl border border-white/10 bg-black/10 p-3">
+                <div className="text-xs uppercase tracking-wider text-white/60">Focus</div>
+                <div className="mt-1 text-white/90 font-semibold">Backend + Full‑stack</div>
+                <div className="text-xs text-white/60">APIs, databases, UX polish</div>
+              </div>
+              <div className="rounded-xl border border-white/10 bg-black/10 p-3">
+                <div className="text-xs uppercase tracking-wider text-white/60">Strength</div>
+                <div className="mt-1 text-white/90 font-semibold">Competitive programming</div>
+                <div className="text-xs text-white/60">Constraints → clean solutions</div>
+              </div>
+              <div className="rounded-xl border border-white/10 bg-black/10 p-3">
+                <div className="text-xs uppercase tracking-wider text-white/60">Interests</div>
+                <div className="mt-1 text-white/90 font-semibold">Linux + systems</div>
+                <div className="text-xs text-white/60">Performance-first thinking</div>
+              </div>
+            </div>
+
+            <div className="mt-4 text-[#8b949e] leading-relaxed">
+              I’m a {personal.title || "Computer Science Undergraduate"} who enjoys shipping fast, reliable products with a strong foundation in DSA, OS, and networking. I like building interfaces that feel “snappy”, and backend systems that are simple to maintain.
+            </div>
+
+            <div className="mt-4 flex flex-wrap gap-2 text-xs">
+              <a href={socials.github || "#"} target="_blank" rel="noopener noreferrer" className={`px-3 py-1 rounded-full border border-white/10 bg-black/10 text-white/80 hover:text-white ${linkClass}`}>
+                GitHub
+              </a>
+              <a href={socials.linkedin || "#"} target="_blank" rel="noopener noreferrer" className={`px-3 py-1 rounded-full border border-white/10 bg-black/10 text-white/80 hover:text-white ${linkClass}`}>
+                LinkedIn
+              </a>
+              <a href={socials.codeforces || "#"} target="_blank" rel="noopener noreferrer" className={`px-3 py-1 rounded-full border border-white/10 bg-black/10 text-white/80 hover:text-white ${linkClass}`}>
+                Codeforces
+              </a>
+              <a href={socials.codechef || "#"} target="_blank" rel="noopener noreferrer" className={`px-3 py-1 rounded-full border border-white/10 bg-black/10 text-white/80 hover:text-white ${linkClass}`}>
+                CodeChef
+              </a>
+              <a href={"mailto:" + (personal.email || "awanish420@gmail.com")} className={`px-3 py-1 rounded-full border border-white/10 bg-black/10 text-white/80 hover:text-white ${linkClass}`}>
+                Email
+              </a>
+            </div>
           </div>
 
           <div className="mb-2">
@@ -139,6 +172,40 @@ export default function About({ isDarkMode }) {
               </a>
             </span>
           </div>
+
+          <div className="mb-4 rounded-2xl border border-white/10 bg-black/10 backdrop-blur-sm p-4">
+            <div className="text-white/90 font-bold mb-3">Skills snapshot</div>
+            <div className="grid sm:grid-cols-2 gap-3">
+              {skillGroups.map(([group, items]) => (
+                <div key={group} className="rounded-xl border border-white/10 bg-black/10 p-3">
+                  <div className="text-xs uppercase tracking-wider text-white/60">{group}</div>
+                  <div className="mt-1 flex flex-wrap gap-1.5">
+                    {(items || []).slice(0, 8).map((s) => (
+                      <span key={s} className="text-xs px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-white/80">
+                        {s}
+                      </span>
+                    ))}
+                    {(items || []).length > 8 && (
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-white/50">
+                        +{(items || []).length - 8} more
+                      </span>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {certifications.length > 0 && (
+            <div className="mb-4 rounded-2xl border border-white/10 bg-black/10 backdrop-blur-sm p-4">
+              <div className="text-white/90 font-bold mb-2">Certifications</div>
+              <ul className="list-disc pl-5 space-y-1 text-[#8b949e]">
+                {certifications.slice(0, 6).map((c) => (
+                  <li key={c}>{c}</li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           <div className="flex gap-1 mt-6">
             {["#161b22", "#ff5f56", "#39d353", "#ffbd2e", "#53d8fb", "#a371f7", "#58ebcd", "#ffffff"].map((c) => (

@@ -1,6 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
+import { PORTFOLIO_DATA } from "../../constants/portfolioData";
 
 const Terminal = ({ isDarkMode }) => {
+  const personal = PORTFOLIO_DATA?.personal ?? {};
+  const socials = PORTFOLIO_DATA?.socials ?? {};
+  const projects = PORTFOLIO_DATA?.projects ?? [];
+
   const [input, setInput] = useState("");
   const [output, setOutput] = useState([
     "Welcome to PortfolioOS Terminal v1.0.0",
@@ -13,9 +18,9 @@ const Terminal = ({ isDarkMode }) => {
   const terminalRef = useRef(null);
 
   const fileSystem = {
-    "resume.md": "Awanish Kumar Rai\\nComputer Science Engineer\\n...",
-    "projects.txt": "1. PortfolioOS\\n2. Adhyay\\n3. Smart-Photo-Editor",
-    "contact.txt": "Email: awanish420@gmail.com\\nPhone: +91-6283642238"
+    "resume.md": `${personal.name || "Awanish Kumar Rai"}\n${personal.title || "Computer Science Engineer"}\n${personal.subtitle || "Software Engineer | Competitive Programmer"}\nLocation: ${personal.location || "India"}`,
+    "projects.txt": projects.map((p, i) => `${i + 1}. ${p.name}`).join("\n") || "1. PortfolioOS\n2. My-Bookings\n3. AlgoPhoto",
+    "contact.txt": `Email: ${personal.email || "awanishrai420@gmail.com"}\nPhone: ${personal.phone || "+91-6283642238"}\nGitHub: ${socials.github || "https://github.com/awanishkrai"}\nLinkedIn: ${socials.linkedin || "#"}`
   };
 
   const handleCommand = () => {
@@ -73,7 +78,7 @@ const Terminal = ({ isDarkMode }) => {
         if (!args[1]) {
           newOutput.push("cat: missing operand");
         } else if (fileSystem[args[1]]) {
-          fileSystem[args[1]].split('\\n').forEach(line => newOutput.push(line));
+          fileSystem[args[1]].split('\n').forEach(line => newOutput.push(line));
         } else {
           newOutput.push(`cat: ${args[1]}: No such file or directory`);
         }

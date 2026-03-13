@@ -1,5 +1,17 @@
 import React from "react";
-import { User, FolderKanban, Terminal, FileText, Globe, Settings as SettingsIcon, Trash2 } from "lucide-react";
+import {
+  User,
+  FolderKanban,
+  Terminal,
+  FileText,
+  Globe,
+  Settings as SettingsIcon,
+  Trash2,
+  Award,
+  Trophy,
+  GraduationCap,
+  Mail,
+} from "lucide-react";
 
 export const OS_APPS = [
   { id: "about", label: "About Me", color: "text-[#39d353]" },
@@ -8,6 +20,10 @@ export const OS_APPS = [
   { id: "resume", label: "Resume.pdf", color: "text-[#ffbd2e]" },
   { id: "browser", label: "Browser", color: "text-[#53d8fb]" },
   { id: "settings", label: "Settings", color: "text-gray-400" },
+  { id: "certificates", label: "Certificates", color: "text-[#ffbd2e]" },
+  { id: "cp", label: "Comp. Prog.", color: "text-[#e94560]" },
+  { id: "education", label: "Education", color: "text-[#53d8fb]" },
+  { id: "contact", label: "Contact", color: "text-[#39d353]" },
 ];
 
 export const getAppIcon = (id, size) => {
@@ -20,6 +36,10 @@ export const getAppIcon = (id, size) => {
     case 'resume': return <FileText size={size} className={color} strokeWidth={1.5} />;
     case 'browser': return <Globe size={size} className={color} strokeWidth={1.5} />;
     case 'settings': return <SettingsIcon size={size} className={color} strokeWidth={1.5} />;
+    case 'certificates': return <Award size={size} className={color} strokeWidth={1.5} />;
+    case 'cp': return <Trophy size={size} className={color} strokeWidth={1.5} />;
+    case 'education': return <GraduationCap size={size} className={color} strokeWidth={1.5} />;
+    case 'contact': return <Mail size={size} className={color} strokeWidth={1.5} />;
     default: return <User size={size} className={color} />;
   }
 };

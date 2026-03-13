@@ -28,7 +28,7 @@ const Projects = ({ isDarkMode }) => {
   return (
     <div className={`flex w-full h-full select-none font-ubuntu text-sm ${isDarkMode ? 'bg-[#0d1117] text-slate-200' : 'bg-white text-slate-800'}`}>
       {/* Sidebar */}
-      <div className={`w-48 flex-shrink-0 flex flex-col border-r ${isDarkMode ? 'border-white/10 bg-[#161b22]' : 'border-slate-200 bg-slate-50'}`}>
+      <div className={`w-48 shrink-0 flex flex-col border-r ${isDarkMode ? 'border-white/10 bg-[#161b22]' : 'border-slate-200 bg-slate-50'}`}>
         <div className="p-3 text-xs font-bold text-slate-400 uppercase tracking-wider">Places</div>
         <div className="flex flex-col gap-1 px-2">
           <div className="flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-white/10 cursor-pointer text-slate-400">
@@ -97,29 +97,56 @@ const Projects = ({ isDarkMode }) => {
             </div>
           ) : (
             // Inside Folder View
-            <div className="flex flex-wrap gap-6">
-              <div 
-                onDoubleClick={() => handleOpenReadme(selectedFolder)}
-                className="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-white/5 cursor-pointer group w-24"
-              >
-                <FileText size={48} className="text-[#ffbd2e] group-hover:scale-110 transition-transform" strokeWidth={1} />
-                <span className="text-center text-xs font-medium truncate w-full text-slate-300 group-hover:text-white">
-                  README.md
-                </span>
-              </div>
-              
-              <div className="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-white/5 cursor-pointer group w-24">
-                <Code size={48} className="text-[#53d8fb] group-hover:scale-110 transition-transform fill-[#53d8fb]/20" strokeWidth={1} />
-                <span className="text-center text-xs font-medium truncate w-full text-slate-300 group-hover:text-white">
-                  src/
-                </span>
+            <div className="flex flex-col md:flex-row gap-6">
+              <div className="flex flex-wrap gap-6">
+                <div 
+                  onDoubleClick={() => handleOpenReadme(selectedFolder)}
+                  className="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-white/5 cursor-pointer group w-24"
+                >
+                  <FileText size={48} className="text-[#ffbd2e] group-hover:scale-110 transition-transform" strokeWidth={1} />
+                  <span className="text-center text-xs font-medium truncate w-full text-slate-300 group-hover:text-white">
+                    README.md
+                  </span>
+                </div>
+                
+                <div className="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-white/5 cursor-pointer group w-24">
+                  <Code size={48} className="text-[#53d8fb] group-hover:scale-110 transition-transform fill-[#53d8fb]/20" strokeWidth={1} />
+                  <span className="text-center text-xs font-medium truncate w-full text-slate-300 group-hover:text-white">
+                    src/
+                  </span>
+                </div>
+
+                <a
+                  href={selectedFolder.github || PORTFOLIO_DATA?.socials?.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-white/5 cursor-pointer group w-24"
+                >
+                  <GithubIcon size={48} className="text-[#a371f7] group-hover:scale-110 transition-transform" strokeWidth={1} />
+                  <span className="text-center text-xs font-medium truncate w-full text-slate-300 group-hover:text-white">
+                    GitHub
+                  </span>
+                </a>
               </div>
 
-              <div className="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-white/5 cursor-pointer group w-24">
-                <FileJson size={48} className="text-[#a371f7] group-hover:scale-110 transition-transform" strokeWidth={1} />
-                <span className="text-center text-xs font-medium truncate w-full text-slate-300 group-hover:text-white">
-                  package.json
-                </span>
+              <div className="flex-1 min-w-[220px] rounded-xl border border-white/10 bg-black/10 p-4 space-y-2">
+                <div className="text-sm font-semibold text-white/90">
+                  {selectedFolder.name}
+                </div>
+                <div className="text-xs text-slate-300">
+                  {selectedFolder.description}
+                </div>
+                <div className="text-xs text-slate-400 mt-2">
+                  <span className="font-semibold text-slate-200">Tech:</span>{" "}
+                  {selectedFolder.technologies}
+                </div>
+                {selectedFolder.highlights && (
+                  <ul className="mt-2 list-disc pl-4 text-xs text-slate-300 space-y-1">
+                    {selectedFolder.highlights.map((h) => (
+                      <li key={h}>{h}</li>
+                    ))}
+                  </ul>
+                )}
               </div>
             </div>
           )}
