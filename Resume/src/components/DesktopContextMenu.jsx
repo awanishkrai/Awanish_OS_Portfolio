@@ -39,17 +39,17 @@ const DesktopContextMenu = ({ onOpenTerminal, onChangeWallpaper, onAbout, onSett
       style={{ top: safeY, left: safeX }}
       onContextMenu={(e) => e.preventDefault()}
     >
-      <div className="px-3 py-1.5 hover:bg-[#53d8fb] hover:text-black cursor-pointer transition-colors" onClick={onOpenTerminal}>
+      <div className="px-3 py-1.5 hover:bg-[#E95420] hover:text-white cursor-pointer transition-colors" onClick={onOpenTerminal}>
         Open Terminal
       </div>
-      <div className="px-3 py-1.5 hover:bg-[#53d8fb] hover:text-black cursor-pointer transition-colors" onClick={onChangeWallpaper}>
+      <div className="px-3 py-1.5 hover:bg-[#E95420] hover:text-white cursor-pointer transition-colors" onClick={onChangeWallpaper}>
         Change Wallpaper
       </div>
       <div className="border-b border-white/10 my-1"></div>
-      <div className="px-3 py-1.5 hover:bg-[#53d8fb] hover:text-black cursor-pointer transition-colors" onClick={onSettings}>
+      <div className="px-3 py-1.5 hover:bg-[#E95420] hover:text-white cursor-pointer transition-colors" onClick={onSettings}>
         Settings
       </div>
-      <div className="px-3 py-1.5 hover:bg-[#53d8fb] hover:text-black cursor-pointer transition-colors" onClick={onAbout}>
+      <div className="px-3 py-1.5 hover:bg-[#E95420] hover:text-white cursor-pointer transition-colors" onClick={onAbout}>
         About This System
       </div>
     </div>

@@ -110,14 +110,7 @@ export default function App() {
     skills: 'Skills',
   }), []);
 
-  const particles = useMemo(() =>
-    [...Array(15)].map(() => ({
-      w: Math.random() * 1.5 + 1,
-      h: Math.random() * 1.5 + 1,
-      top: Math.random() * 100,
-      left: Math.random() * 100,
-      opacity: Math.random() * 0.35 + 0.15,
-    })), []);
+  // No particles needed — Ubuntu wallpaper SVG is the background
 
   // --- Boot Animation Screen ---
   useEffect(() => {
@@ -183,7 +176,7 @@ export default function App() {
         initial={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 1 }}
-        className="fixed inset-0 bg-[#0d1117] flex flex-col items-center justify-center z-[9999] font-mono text-[#39d353]"
+        className="fixed inset-0 bg-[#2c001e] flex flex-col items-center justify-center z-[9999] font-mono text-white/90"
         style={{ fontFamily: "'JetBrains Mono', monospace" }}
       >
         <div className="text-left w-[440px] max-w-full px-6 mx-auto text-sm leading-relaxed space-y-1 mb-8">
@@ -203,7 +196,7 @@ export default function App() {
               transition={{ delay: 0.3 * i, duration: 0.2 }}
               className="tracking-tight"
             >
-              <span className="text-white mr-2">{line.substring(0, 8)}</span>
+              <span className="text-[#39d353] font-bold mr-2">{line.substring(0, 8)}</span>
               {line.substring(8)}
             </motion.div>
           ))}
@@ -212,7 +205,7 @@ export default function App() {
             initial={{ opacity: 0, width: "0%" }}
             animate={{ opacity: 1, width: "100%" }}
             transition={{ delay: 2.5, duration: 1 }}
-            className="h-1 bg-[#39d353] mt-6 relative overflow-hidden"
+            className="h-1 bg-[#E95420] mt-6 relative overflow-hidden"
           >
             <div className="absolute inset-0 bg-white/30 animate-pulse"></div>
           </motion.div>
@@ -224,7 +217,7 @@ export default function App() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5 }}
-          className="text-[#39d353] hover:text-white transition text-xs border border-[#39d353]/30 px-4 py-1.5 rounded shadow-[0_0_10px_rgba(57,211,83,0.1)]"
+          className="text-white hover:text-[#E95420] transition text-xs border border-white/30 hover:border-[#E95420]/50 px-4 py-1.5 rounded shadow-[0_0_10px_rgba(255,255,255,0.05)]"
         >
           [ PRESS ENTER TO JUMP IN ]
         </motion.button>
@@ -238,7 +231,7 @@ export default function App() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="fixed inset-0 bg-[#0d1117] flex flex-col items-center justify-center z-[9999] cursor-pointer"
+        className="fixed inset-0 bg-[#2c001e] flex flex-col items-center justify-center z-[9999] cursor-pointer"
         onClick={() => setIsLocked(false)}
       >
         <div className="text-6xl font-bold text-white/90 mb-4">
@@ -256,28 +249,15 @@ export default function App() {
       <motion.div
         initial={{ opacity: 1 }}
         animate={{ opacity: 1 }}
-        className="w-screen h-screen overflow-hidden relative bg-[#0d1117] text-white font-ubuntu select-none"
+        className="w-screen h-screen overflow-hidden relative bg-[#2c001e] text-white font-ubuntu select-none"
       >
-        {/* Static background */}
-        <div
-          className="absolute inset-0 -z-10"
-          style={{ background: "linear-gradient(to bottom right, #0d1117, #0b1b36, #12081f)" }}
+        {/* Ubuntu wallpaper background */}
+        <img
+          src="/ubuntu-wallpaper.svg"
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover -z-10 pointer-events-none select-none"
+          draggable={false}
         />
-
-        {/* Floating particle stars (stable, no re-render jitter) */}
-        {particles.map((p, i) => (
-          <div
-            key={i}
-            className="absolute rounded-full bg-[#53d8fb]"
-            style={{
-              width: p.w,
-              height: p.h,
-              top: `${p.top}%`,
-              left: `${p.left}%`,
-              opacity: p.opacity,
-            }}
-          />
-        ))}
 
         {/* Desktop Components */}
         <DesktopContextMenu

@@ -110,7 +110,7 @@ const ActivitiesOverlay = ({
             }}
             className={`w-12 h-2 rounded-full transition-all ${
               currentWorkspace === i
-                ? "bg-[#53d8fb] w-8"
+                ? "bg-[#E95420] w-8"
                 : isDarkMode
                 ? "bg-white/20 hover:bg-white/30"
                 : "bg-black/20 hover:bg-black/30"

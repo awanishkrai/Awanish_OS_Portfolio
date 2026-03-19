@@ -2,10 +2,10 @@
 @import "tailwindcss";
 
 @theme {
-  --color-os-bg: #0d1117;
-  --color-os-cyan: #53d8fb;
-  --color-os-green: #39d353;
-  --color-os-pink: #e94560;
+  --color-os-bg: #2c001e;
+  --color-os-orange: #E95420;
+  --color-os-purple: #77216f;
+  --color-os-aubergine: #300a24;
 }
 
 html, body, #root {
@@ -20,7 +20,7 @@ body {
   font-family: 'Ubuntu', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #0d1117;
+  background: #2c001e;
 }
 
 ::-webkit-scrollbar {

@@ -10,7 +10,7 @@ const Skills = ({ isDarkMode }) => {
     <div className={`w-full h-full flex flex-col ${bg} font-ubuntu text-sm`}>
       <div className={`px-4 py-3 border-b flex items-center justify-between ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
         <div className="flex items-center gap-2">
-          <Layers size={18} className="text-[#53d8fb]" />
+          <Layers size={18} className="text-[#E95420]" />
           <span className="font-semibold">Skills</span>
         </div>
         <span className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>~/profile/skills</span>
@@ -20,7 +20,7 @@ const Skills = ({ isDarkMode }) => {
         {Object.entries(skills).map(([category, items]) => (
           <div key={category}>
             <h3 className={`text-sm font-bold mb-3 flex items-center gap-2 ${isDarkMode ? 'text-white/90' : 'text-slate-900'}`}>
-              <span className="w-1 h-5 bg-gradient-to-b from-[#53d8fb] to-[#a371f7] rounded-full" />
+              <span className="w-1 h-5 bg-gradient-to-b from-[#E95420] to-[#a371f7] rounded-full" />
               {category}
             </h3>
             <div className="flex flex-wrap gap-2">

@@ -29,7 +29,7 @@ const CalendarPopup = ({ isDarkMode, date, onClose }) => {
         key={d}
         className={`w-8 h-8 flex items-center justify-center text-xs rounded ${
           isToday
-            ? "bg-[#53d8fb] text-black font-bold"
+            ? "bg-[#E95420] text-white font-bold"
             : "hover:bg-white/10"
         }`}
       >

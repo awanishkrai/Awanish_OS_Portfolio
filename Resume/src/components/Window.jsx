@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { X, Minus, Square } from "lucide-react";
 
-const DESKTOP_MARGIN = 24;
-const TOP_BAR_CLEARANCE = 56;
-const TASKBAR_CLEARANCE = 88;
+const TOP_BAR_CLEARANCE = 30;
+const TASKBAR_CLEARANCE = 12;
+const DOCK_WIDTH = 64;
 
 const Window = ({
   id,
@@ -96,9 +96,9 @@ const Window = ({
   const windowStyle =
     isMaximized
       ? {
-          left: `${DESKTOP_MARGIN / 2}px`,
+          left: `${DOCK_WIDTH + 4}px`,
           top: `${TOP_BAR_CLEARANCE}px`,
-          width: `calc(100vw - ${DESKTOP_MARGIN}px)`,
+          width: `calc(100vw - ${DOCK_WIDTH + 8}px)`,
           height: `calc(100vh - ${TOP_BAR_CLEARANCE + TASKBAR_CLEARANCE}px)`,
           zIndex,
           borderRadius: "1rem",
@@ -106,9 +106,9 @@ const Window = ({
         }
       : snappedSide === "left"
       ? {
-          left: "4px",
+          left: `${DOCK_WIDTH + 4}px`,
           top: `${TOP_BAR_CLEARANCE}px`,
-          width: "calc(50vw - 8px)",
+          width: `calc(50vw - ${DOCK_WIDTH / 2 + 8}px)`,
           height: `calc(100vh - ${TOP_BAR_CLEARANCE + TASKBAR_CLEARANCE}px)`,
           zIndex,
           borderRadius: "1rem",
@@ -116,9 +116,9 @@ const Window = ({
         }
       : snappedSide === "right"
       ? {
-          left: "calc(50vw + 4px)",
+          left: `calc(50vw + ${DOCK_WIDTH / 2}px)`,
           top: `${TOP_BAR_CLEARANCE}px`,
-          width: "calc(50vw - 8px)",
+          width: `calc(50vw - ${DOCK_WIDTH / 2 + 8}px)`,
           height: `calc(100vh - ${TOP_BAR_CLEARANCE + TASKBAR_CLEARANCE}px)`,
           zIndex,
           borderRadius: "1rem",
@@ -140,7 +140,7 @@ const Window = ({
       animate={{ opacity: 1, scale: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.94, y: 12 }}
       transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
-      className={`window-surface fixed shadow-[0_20px_60px_rgba(0,0,0,0.4),0_0_0_1px_rgba(83,216,251,0.05)] border backdrop-blur-2xl transition-all ${isDarkMode
+      className={`window-surface fixed shadow-[0_20px_60px_rgba(0,0,0,0.4),0_0_0_1px_rgba(233,84,32,0.08)] border backdrop-blur-2xl transition-all ${isDarkMode
           ? "bg-[rgba(25,25,35,0.85)] border-slate-700"
           : "bg-[rgba(255,255,255,0.7)] border-slate-200"
         }`}
@@ -151,20 +151,16 @@ const Window = ({
       <div
         onMouseDown={handleMouseDown}
         className={`h-11 flex items-center px-4 cursor-move select-none border-b ${isDarkMode
-            ? "bg-[#161b22] border-[#30363d]"
-            : "bg-slate-200 border-slate-300"
+            ? "bg-[#252526] border-[#30363d]"
+            : "bg-[#f5f5f5] border-slate-300"
           }`}
       >
-        <div className="flex gap-2 w-16" data-no-drag>
-          {/* Close - Red */}
-          <button
-            onClick={(e) => { e.stopPropagation(); onClose(id); }}
-            className="w-3.5 h-3.5 rounded-full bg-[#ff5f56] hover:bg-[#ff5f56]/80 flex items-center justify-center group"
-          >
-            <X size={10} className="text-black/60 opacity-0 group-hover:opacity-100" />
-          </button>
+        <div className="flex-1 text-left pl-2 text-[#8b949e] font-semibold text-xs tracking-wide">
+          {title}
+        </div>
 
-          {/* Minimize - Yellow */}
+        <div className="flex gap-2 w-16 justify-end" data-no-drag>
+          {/* Minimize */}
           <button
             onClick={(e) => { e.stopPropagation(); onMinimize(id); }}
             className="w-3.5 h-3.5 rounded-full bg-[#ffbd2e] hover:bg-[#ffbd2e]/80 flex items-center justify-center group"
@@ -172,17 +168,21 @@ const Window = ({
             <Minus size={10} className="text-black/60 opacity-0 group-hover:opacity-100" />
           </button>
 
-          {/* Maximize / Restore - Green */}
+          {/* Maximize / Restore */}
           <button
             onClick={(e) => { e.stopPropagation(); toggleMaximize(); }}
             className="w-3.5 h-3.5 rounded-full bg-[#27c93f] hover:bg-[#27c93f]/80 flex items-center justify-center group"
           >
             <Square size={8} className="text-black/60 opacity-0 group-hover:opacity-100" />
           </button>
-        </div>
 
-        <div className="flex-1 text-center pr-16 text-[#8b949e] font-semibold text-xs tracking-wide">
-          {title}
+          {/* Close */}
+          <button
+            onClick={(e) => { e.stopPropagation(); onClose(id); }}
+            className="w-3.5 h-3.5 rounded-full bg-[#E95420] hover:bg-[#d94a1a] flex items-center justify-center group"
+          >
+            <X size={10} className="text-black/60 opacity-0 group-hover:opacity-100" />
+          </button>
         </div>
       </div>
 

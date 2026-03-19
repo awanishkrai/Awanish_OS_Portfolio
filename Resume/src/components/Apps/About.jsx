@@ -12,7 +12,7 @@ export default function About({ isDarkMode }) {
   const skillGroups = Object.entries(skills);
 
   const bgClass = isDarkMode ? "bg-[#0d1117] text-[#8b949e]" : "bg-slate-100 text-slate-800";
-  const linkClass = "hover:text-[#53d8fb] transition-colors";
+  const linkClass = "hover:text-[#E95420] transition-colors";
 
   const handleImageError = (e) => {
     e.target.style.display = "none";
@@ -28,17 +28,17 @@ export default function About({ isDarkMode }) {
             <img
               src={profileSrc}
               alt={personal.name || "Profile"}
-              className="w-20 h-20 rounded-full object-cover border-2 border-[#53d8fb]/50 shadow-lg"
+              className="w-20 h-20 rounded-full object-cover border-2 border-[#E95420]/50 shadow-lg"
               onError={handleImageError}
             />
             <div
-              className="absolute inset-0 w-20 h-20 rounded-full bg-linear-to-tr from-[#e94560] to-[#53d8fb] flex items-center justify-center text-2xl font-bold text-white border-2 border-[#53d8fb]/50"
+              className="absolute inset-0 w-20 h-20 rounded-full bg-linear-to-tr from-[#E95420] to-[#77216f] flex items-center justify-center text-2xl font-bold text-white border-2 border-[#E95420]/50"
               style={{ display: "none" }}
             >
               {(personal.name || "A").charAt(0)}
             </div>
           </div>
-          <pre className="text-[#53d8fb] font-black leading-[1.15] hidden sm:block text-xs md:text-sm">
+          <pre className="text-[#E95420] font-black leading-[1.15] hidden sm:block text-xs md:text-sm">
             {asciiArt}
           </pre>
         </div>
@@ -48,7 +48,7 @@ export default function About({ isDarkMode }) {
             <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2">
               <div>
                 <div className="text-white text-lg font-black tracking-tight">{personal.name || "Awanish Kumar Rai"}</div>
-                <div className="text-[#53d8fb] font-semibold">{personal.subtitle || "Software Engineer | Competitive Programmer"}</div>
+                <div className="text-[#E95420] font-semibold">{personal.subtitle || "Software Engineer | Competitive Programmer"}</div>
               </div>
               <div className="text-xs text-white/60">
                 {personal.location || "India"} • {personal.email || "awanish420@gmail.com"}
@@ -97,15 +97,15 @@ export default function About({ isDarkMode }) {
           </div>
 
           <div className="mb-2">
-            <span className="text-[#53d8fb] font-bold">visitor</span>
+            <span className="text-[#E95420] font-bold">visitor</span>
             <span className="text-white">@</span>
-            <span className="text-[#53d8fb] font-bold">awanish-os</span>
+            <span className="text-[#E95420] font-bold">awanish-os</span>
           </div>
           <div className="text-slate-500 mb-2 font-black">-------------------</div>
 
           <div className="grid grid-cols-[100px_1fr] gap-x-2 gap-y-1 mb-4">
-            <span className="text-[#53d8fb] font-bold">OS</span>
-            <span className="text-white">PortfolioOS x86_64</span>
+            <span className="text-[#E95420] font-bold">OS</span>
+            <span className="text-white">Ubuntu 24.04 LTS x86_64</span>
             <span className="text-[#39d353] font-bold">Host</span>
             <span className="text-white">React-Vite Machine</span>
             <span className="text-[#e94560] font-bold">Kernel</span>
@@ -114,7 +114,7 @@ export default function About({ isDarkMode }) {
             <span className="text-white">3 years (Experience)</span>
             <span className="text-[#a371f7] font-bold">Packages</span>
             <span className="text-white">847 (npm)</span>
-            <span className="text-[#53d8fb] font-bold">Shell</span>
+            <span className="text-[#E95420] font-bold">Shell</span>
             <span className="text-white">bash 5.1.16</span>
             <span className="text-[#39d353] font-bold">Resolution</span>
             <span className="text-white">1920x1080</span>
@@ -124,7 +124,7 @@ export default function About({ isDarkMode }) {
             <span className="text-white">Framer-Motion</span>
             <span className="text-[#a371f7] font-bold">Theme</span>
             <span className="text-white">Ubuntu Dark [GTK2/3]</span>
-            <span className="text-[#53d8fb] font-bold">Terminal</span>
+            <span className="text-[#E95420] font-bold">Terminal</span>
             <span className="text-white">Awanish-Term</span>
             <span className="text-[#39d353] font-bold">CPU</span>
             <span className="text-white">Human Brain (1) @ 2.40GHz</span>
@@ -137,7 +137,7 @@ export default function About({ isDarkMode }) {
             <span className="text-white">{personal.name || "Awanish Kumar Rai"}</span>
             <span className="text-[#a371f7] font-bold">Role</span>
             <span className="text-white">{personal.title || "Computer Science Engineer"}</span>
-            <span className="text-[#53d8fb] font-bold">Location</span>
+            <span className="text-[#E95420] font-bold">Location</span>
             <span className="text-white">{personal.location || "India"}</span>
             <span className="text-[#39d353] font-bold">Editor</span>
             <span className="text-white">Neovim btw</span>
@@ -153,7 +153,7 @@ export default function About({ isDarkMode }) {
                 github.com/awanishkrai
               </a>
             </span>
-            <span className="text-[#53d8fb] font-bold">LinkedIn</span>
+            <span className="text-[#E95420] font-bold">LinkedIn</span>
             <span className="text-white">
               <a href={socials.linkedin || "#"} target="_blank" rel="noopener noreferrer" className={linkClass}>
                 linkedin.com/in/awanish-rai
@@ -208,7 +208,7 @@ export default function About({ isDarkMode }) {
           )}
 
           <div className="flex gap-1 mt-6">
-            {["#161b22", "#ff5f56", "#39d353", "#ffbd2e", "#53d8fb", "#a371f7", "#58ebcd", "#ffffff"].map((c) => (
+            {["#300a24", "#E95420", "#77216f", "#f0a30a", "#27AE60", "#3468d5", "#8e44ad", "#ffffff"].map((c) => (
               <div key={c} className="w-5 h-5 rounded-sm" style={{ backgroundColor: c }} />
             ))}
           </div>

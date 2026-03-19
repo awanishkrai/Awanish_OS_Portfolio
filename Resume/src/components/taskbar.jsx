@@ -19,10 +19,10 @@ const Taskbar = ({ activeApps, onFocus, onMinimize, onClose, focusedApp, isDarkM
       initial={{ y: 24, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-      className={`fixed bottom-3 left-1/2 -translate-x-1/2 px-4 py-2 flex gap-3 rounded-2xl backdrop-blur-xl border shadow-lg z-[9000] taskbar ${
+      className={`fixed top-1/2 left-0 -translate-y-1/2 px-2 py-4 flex flex-col gap-3 rounded-r-2xl backdrop-blur-xl z-[9000] taskbar ${
         isDarkMode
-          ? "bg-[#111116]/80 border-white/10"
-          : "bg-white/60 border-slate-200"
+          ? "bg-[#111116]/80 border-r border-white/10"
+          : "bg-white/60 border-r border-slate-200"
       }`}
     >
       {OS_APPS.map((app) => {
@@ -43,7 +43,7 @@ const Taskbar = ({ activeApps, onFocus, onMinimize, onClose, focusedApp, isDarkM
                 y: e.clientY,
               });
             }}
-            whileHover={{ y: -6, scale: 1.15 }}
+            whileHover={{ x: 6, scale: 1.15 }}
             whileTap={{ scale: 0.95 }}
             className={`relative flex flex-col items-center group w-12 h-12 justify-center cursor-pointer transition-all ${
               isOpen && !isFocused && isMinimized ? 'opacity-70 saturate-50' : ''
@@ -55,14 +55,14 @@ const Taskbar = ({ activeApps, onFocus, onMinimize, onClose, focusedApp, isDarkM
             </div>
             
             {/* Tooltip on hover */}
-            <div className={`absolute -top-12 px-3 py-1.5 text-xs font-medium rounded shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap ${isDarkMode ? "bg-slate-800 text-white" : "bg-white text-black"}`}>
+            <div className={`absolute left-14 top-1/2 -translate-y-1/2 px-3 py-1.5 text-xs font-medium rounded shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap ${isDarkMode ? "bg-slate-800 text-white" : "bg-white text-black"}`}>
               {app.label}
             </div>
 
             {/* Indicator Dot */}
             {isOpen && (
-              <div className={`absolute -bottom-1 w-1.5 h-1.5 rounded-full transition-colors ${
-                isFocused ? 'bg-[#53d8fb] shadow-[0_0_8px_#53d8fb]' : 'bg-gray-500'
+              <div className={`absolute -left-1 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full transition-colors ${
+                isFocused ? 'bg-[#E95420] shadow-[0_0_8px_#E95420]' : 'bg-gray-500'
               }`} />
             )}
           </motion.div>

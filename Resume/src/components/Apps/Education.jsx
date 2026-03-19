@@ -20,7 +20,7 @@ const Education = ({ isDarkMode }) => {
     <div className={`w-full h-full flex flex-col ${bg} font-ubuntu text-sm`}>
       <div className={`px-4 py-3 border-b flex items-center justify-between ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
         <div className="flex items-center gap-2">
-          <GraduationCap size={18} className="text-[#53d8fb]" />
+          <GraduationCap size={18} className="text-[#E95420]" />
           <span className="font-semibold">Education</span>
         </div>
       </div>

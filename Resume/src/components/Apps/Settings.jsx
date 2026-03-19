@@ -52,7 +52,7 @@ const Settings = ({ isDarkMode, toggleTheme }) => {
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-colors ${
                 activeTab === tab.id 
-                  ? (isDarkMode ? 'bg-[#53d8fb]/20 text-[#53d8fb]' : 'bg-blue-100 text-blue-700') 
+                  ? (isDarkMode ? 'bg-[#E95420]/20 text-[#E95420]' : 'bg-orange-100 text-orange-700') 
                   : 'hover:bg-white/5 text-slate-500 hover:text-inherit'
               }`}
             >
@@ -72,7 +72,7 @@ const Settings = ({ isDarkMode, toggleTheme }) => {
               <h2 className="text-2xl font-bold flex items-center gap-2"><User /> User Profile</h2>
               <div className={`p-6 rounded-xl border ${isDarkMode ? 'bg-[#161b22] border-white/10' : 'bg-white border-slate-200'}`}>
                 <div className="flex items-center gap-6 mb-8">
-                  <div className="relative w-20 h-20 rounded-full overflow-hidden bg-gradient-to-tr from-[#e94560] to-[#53d8fb] flex items-center justify-center shadow-lg ring-2 ring-white/10">
+                  <div className="relative w-20 h-20 rounded-full overflow-hidden bg-gradient-to-tr from-[#E95420] to-[#77216f] flex items-center justify-center shadow-lg ring-2 ring-white/10">
                     <img
                       src="/profile.png"
                       alt={personal?.name || 'Profile'}
@@ -83,18 +83,18 @@ const Settings = ({ isDarkMode, toggleTheme }) => {
                   </div>
                   <div>
                     <h3 className="text-xl font-bold">{personal?.name || 'Awanish Kumar Rai'}</h3>
-                    <p className={isDarkMode ? 'text-[#53d8fb]' : 'text-blue-600'}>Administrator</p>
+                    <p className={isDarkMode ? 'text-[#E95420]' : 'text-orange-600'}>Administrator</p>
                   </div>
                 </div>
                 
                 <div className="space-y-4">
                   <div>
                     <label className="text-xs uppercase font-bold opacity-50 block mb-1">Display Name</label>
-                    <input type="text" value={personal?.name || 'Awanish Kumar Rai'} readOnly className={`w-full p-2.5 rounded-lg border outline-none ${isDarkMode ? 'bg-[#0d1117] border-white/10 focus:border-[#53d8fb]' : 'bg-slate-50 border-slate-200 focus:border-blue-500'}`} />
+                    <input type="text" value={personal?.name || 'Awanish Kumar Rai'} readOnly className={`w-full p-2.5 rounded-lg border outline-none ${isDarkMode ? 'bg-[#0d1117] border-white/10 focus:border-[#E95420]' : 'bg-slate-50 border-slate-200 focus:border-orange-500'}`} />
                   </div>
                   <div>
                     <label className="text-xs uppercase font-bold opacity-50 block mb-1">Title</label>
-                    <input type="text" value={personal?.title || 'Computer Science Engineer'} readOnly className={`w-full p-2.5 rounded-lg border outline-none ${isDarkMode ? 'bg-[#0d1117] border-white/10 focus:border-[#53d8fb]' : 'bg-slate-50 border-slate-200 focus:border-blue-500'}`} />
+                    <input type="text" value={personal?.title || 'Computer Science Engineer'} readOnly className={`w-full p-2.5 rounded-lg border outline-none ${isDarkMode ? 'bg-[#0d1117] border-white/10 focus:border-[#E95420]' : 'bg-slate-50 border-slate-200 focus:border-orange-500'}`} />
                   </div>
                 </div>
               </div>
@@ -122,8 +122,8 @@ const Settings = ({ isDarkMode, toggleTheme }) => {
 
               <h3 className="text-sm font-bold uppercase opacity-50 mt-8 mb-4">Color Accents</h3>
               <div className="flex gap-4">
-                {['#53d8fb', '#39d353', '#e94560', '#ffbd2e', '#a371f7'].map(color => (
-                  <button key={color} className={`w-10 h-10 rounded-full border-2 border-transparent hover:scale-110 transition-transform ${color === '#53d8fb' ? 'ring-2 ring-offset-2 ring-offset-[#0d1117] ring-white' : ''}`} style={{ backgroundColor: color }} />
+                {['#E95420', '#77216f', '#27AE60', '#f0a30a', '#3468d5'].map(color => (
+                  <button key={color} className={`w-10 h-10 rounded-full border-2 border-transparent hover:scale-110 transition-transform ${color === '#E95420' ? 'ring-2 ring-offset-2 ring-offset-[#0d1117] ring-white' : ''}`} style={{ backgroundColor: color }} />
                 ))}
               </div>
             </div>
@@ -162,7 +162,7 @@ const Settings = ({ isDarkMode, toggleTheme }) => {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <div className="text-xs opacity-50 uppercase font-bold">OS Version</div>
-                    <div className="font-medium">PortfolioOS 1.0 (Web)</div>
+                    <div className="font-medium">Ubuntu 24.04 LTS (Noble Numbat)</div>
                   </div>
                   <div>
                     <div className="text-xs opacity-50 uppercase font-bold">Framework</div>

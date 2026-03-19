@@ -63,7 +63,7 @@ const RunDialog = ({ isDarkMode, onRun, onClose }) => {
             placeholder="Application name (e.g. terminal, about, browser)"
             className={`w-full px-3 py-2 rounded-lg outline-none border ${
               isDarkMode
-                ? "bg-[#0d1117] border-white/10 focus:border-[#53d8fb]"
+                ? "bg-[#0d1117] border-white/10 focus:border-[#E95420]"
                 : "bg-slate-50 border-slate-200 focus:border-blue-500"
             }`}
           />

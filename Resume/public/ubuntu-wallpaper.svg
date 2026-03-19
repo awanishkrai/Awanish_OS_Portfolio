@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <radialGradient id="glow1" cx="30%" cy="70%" r="60%">
+      <stop offset="0%" stop-color="#E95420" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#2c001e" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="75%" cy="25%" r="50%">
+      <stop offset="0%" stop-color="#77216f" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#2c001e" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow3" cx="50%" cy="50%" r="40%">
+      <stop offset="0%" stop-color="#E95420" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2c001e"/>
+      <stop offset="50%" stop-color="#300a24"/>
+      <stop offset="100%" stop-color="#2c001e"/>
+    </linearGradient>
+    <filter id="blur1">
+      <feGaussianBlur stdDeviation="80"/>
+    </filter>
+    <filter id="blur2">
+      <feGaussianBlur stdDeviation="120"/>
+    </filter>
+    <filter id="blur3">
+      <feGaussianBlur stdDeviation="40"/>
+    </filter>
+  </defs>
+  
+  <!-- Base background -->
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  
+  <!-- Large warm glow bottom-left (like Ubuntu's fabric warp) -->
+  <ellipse cx="400" cy="800" rx="900" ry="500" fill="url(#glow1)" filter="url(#blur1)"/>
+  
+  <!-- Purple glow top-right -->
+  <ellipse cx="1500" cy="250" rx="700" ry="400" fill="url(#glow2)" filter="url(#blur2)"/>
+  
+  <!-- Central subtle warmth -->
+  <ellipse cx="960" cy="540" rx="600" ry="350" fill="url(#glow3)" filter="url(#blur1)"/>
+  
+  <!-- Subtle fabric-like swoops -->
+  <path d="M0,600 Q400,400 800,550 T1920,450" stroke="#E95420" stroke-width="1.5" fill="none" opacity="0.08" filter="url(#blur3)"/>
+  <path d="M0,700 Q500,500 1000,650 T1920,500" stroke="#77216f" stroke-width="2" fill="none" opacity="0.06" filter="url(#blur3)"/>
+  <path d="M0,500 Q600,350 1200,480 T1920,380" stroke="#E95420" stroke-width="1" fill="none" opacity="0.05" filter="url(#blur3)"/>
+  
+  <!-- Subtle noise texture overlay -->
+  <rect width="1920" height="1080" fill="url(#bg)" opacity="0.02"/>
+  
+  <!-- Very subtle vignette -->
+  <rect width="1920" height="1080" fill="url(#glow3)" opacity="0.1"/>
+</svg>

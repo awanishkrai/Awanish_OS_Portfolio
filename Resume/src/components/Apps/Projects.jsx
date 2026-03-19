@@ -34,7 +34,7 @@ const Projects = ({ isDarkMode }) => {
           <div className="flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-white/10 cursor-pointer text-slate-400">
             <Home size={16} /> Home
           </div>
-          <div className={`flex items-center gap-2 px-2 py-1.5 rounded-md cursor-pointer ${isDarkMode ? 'bg-[#53d8fb]/20 text-[#53d8fb]' : 'bg-blue-100 text-blue-700'}`} onClick={handleNavigateUp}>
+          <div className={`flex items-center gap-2 px-2 py-1.5 rounded-md cursor-pointer ${isDarkMode ? 'bg-[#E95420]/20 text-[#E95420]' : 'bg-blue-100 text-blue-700'}`} onClick={handleNavigateUp}>
             <Folder size={16} /> Projects
           </div>
           <div className="flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-white/10 cursor-pointer text-slate-400">
@@ -88,7 +88,7 @@ const Projects = ({ isDarkMode }) => {
                   onDoubleClick={() => handleOpenFolder(project)}
                   className="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-white/5 cursor-pointer group"
                 >
-                  <Folder size={48} className="text-[#53d8fb] group-hover:scale-110 transition-transform fill-[#53d8fb]/20" strokeWidth={1} />
+                  <Folder size={48} className="text-[#E95420] group-hover:scale-110 transition-transform fill-[#E95420]/20" strokeWidth={1} />
                   <span className="text-center text-xs font-medium truncate w-full text-slate-300 group-hover:text-white">
                     {project.name}
                   </span>
@@ -110,7 +110,7 @@ const Projects = ({ isDarkMode }) => {
                 </div>
                 
                 <div className="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-white/5 cursor-pointer group w-24">
-                  <Code size={48} className="text-[#53d8fb] group-hover:scale-110 transition-transform fill-[#53d8fb]/20" strokeWidth={1} />
+                  <Code size={48} className="text-[#E95420] group-hover:scale-110 transition-transform fill-[#E95420]/20" strokeWidth={1} />
                   <span className="text-center text-xs font-medium truncate w-full text-slate-300 group-hover:text-white">
                     src/
                   </span>

@@ -54,7 +54,7 @@ const Competitive = ({ isDarkMode }) => {
                   href={cp.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[#53d8fb] hover:underline"
+                  className="text-[#E95420] hover:underline"
                 >
                   {cp.url.replace('https://', '').replace('http://', '')}
                 </a>
