@@ -124,41 +124,52 @@ export const getAppIcon = (id, size = 24) => {
   return icons.about(size);
 };
 
-// Desktop-only items (like real Ubuntu — just a few file/folder shortcuts, not the full app list)
+// Desktop items populated with important recruiter-focused links
 const DESKTOP_ITEMS = [
-  { id: "projects", label: "Home" },
   { id: "resume", label: "Resume.pdf" },
-  { id: "terminal", label: "Terminal" },
+  { id: "about", label: "About Me" },
+  { id: "projects", label: "Projects" },
+  { id: "skills", label: "Skills" },
+  { id: "contact", label: "Contact Info" },
 ];
 
 const DesktopIcons = ({ onDoubleAppClick }) => {
   return (
     <div
-      className="absolute top-16 bottom-24 right-6 flex flex-col justify-between w-24"
+      className="absolute top-20 right-8 bottom-24 flex flex-col justify-between w-auto items-end"
       data-no-context
     >
-      {/* Desktop shortcut icons */}
-      <div className="flex flex-col gap-5">
-        {DESKTOP_ITEMS.map((item) => (
-          <div
-            key={item.id}
-            onDoubleClick={() => onDoubleAppClick(item.id)}
-            className="flex flex-col items-center gap-1.5 p-2 rounded-lg hover:bg-white/10 cursor-pointer text-center group transition-all duration-200 hover:scale-105"
-          >
-            {getAppIcon(item.id, 32)}
-            <span className="text-[11px] font-medium text-white/90 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
-              {item.label}
-            </span>
-          </div>
-        ))}
+      {/* Decorative Quick Launch Widget */}
+      <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-4 shadow-2xl flex flex-col gap-2 min-w-[200px]">
+        <h3 className="text-white/40 text-[10px] font-bold uppercase tracking-[0.2em] mb-2 px-2 border-b border-white/10 pb-2">Quick Navigation</h3>
+        <div className="flex flex-col gap-1">
+          {DESKTOP_ITEMS.map((item) => (
+            <div
+              key={item.id}
+              onDoubleClick={() => onDoubleAppClick(item.id)}
+              className="flex items-center gap-4 p-3 rounded-xl hover:bg-white/10 cursor-pointer group transition-all duration-300 hover:scale-[1.03] border border-transparent hover:border-white/10"
+            >
+              <div className="group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.4)] transition-all">
+                {getAppIcon(item.id, 28)}
+              </div>
+              <span className="text-sm font-medium text-white/90 tracking-wide drop-shadow-md">
+                {item.label}
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* Trash - bottom */}
-      <div className="flex flex-col items-center gap-1.5 p-2 rounded-lg hover:bg-white/10 cursor-pointer"
+      {/* Trash Bubble */}
+      <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-4 shadow-2xl w-max mr-1"
         onDoubleClick={() => {}}
       >
-        {icons.trash(32)}
-        <span className="text-[11px] font-medium text-white/70">Trash</span>
+        <div className="flex flex-col items-center justify-center gap-2 cursor-pointer group transition-all duration-300 hover:scale-[1.05]">
+          <div className="group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] transition-all">
+            {icons.trash(32)}
+          </div>
+          <span className="text-[10px] font-bold text-white/60 tracking-widest uppercase mt-1">Trash</span>
+        </div>
       </div>
     </div>
   );

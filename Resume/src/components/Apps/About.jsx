@@ -150,25 +150,25 @@ export default function About({ isDarkMode }) {
             <span className="text-[#ffbd2e] font-bold">GitHub</span>
             <span className="text-white">
               <a href={socials.github || "#"} target="_blank" rel="noopener noreferrer" className={linkClass}>
-                github.com/awanishkrai
+                {(socials.github || "").replace(/^https?:\/\//, '').replace(/\/$/, '') || "github.com"}
               </a>
             </span>
             <span className="text-[#E95420] font-bold">LinkedIn</span>
             <span className="text-white">
               <a href={socials.linkedin || "#"} target="_blank" rel="noopener noreferrer" className={linkClass}>
-                linkedin.com/in/awanish-rai
+                {(socials.linkedin || "").replace(/^https?:\/\//, '').replace(/\/$/, '') || "linkedin.com"}
               </a>
             </span>
             <span className="text-[#e94560] font-bold">Codeforces</span>
             <span className="text-white">
               <a href={socials.codeforces || "#"} target="_blank" rel="noopener noreferrer" className={linkClass}>
-                codeforces.com/profile/Awanish_Rai
+                {(socials.codeforces || "").replace(/^https?:\/\//, '').replace(/\/$/, '') || "codeforces.com"}
               </a>
             </span>
             <span className="text-[#39d353] font-bold">CodeChef</span>
             <span className="text-white">
               <a href={socials.codechef || "#"} target="_blank" rel="noopener noreferrer" className={linkClass}>
-                codechef.com/users/master_magnus
+                {(socials.codechef || "").replace(/^https?:\/\//, '').replace(/\/$/, '') || "codechef.com"}
               </a>
             </span>
           </div>
@@ -201,7 +201,11 @@ export default function About({ isDarkMode }) {
               <div className="text-white/90 font-bold mb-2">Certifications</div>
               <ul className="list-disc pl-5 space-y-1 text-[#8b949e]">
                 {certifications.slice(0, 6).map((c) => (
-                  <li key={c}>{c}</li>
+                  <li key={c.name}>
+                    <a href={c.url} target="_blank" rel="noopener noreferrer" className={linkClass}>
+                      {c.name}
+                    </a>
+                  </li>
                 ))}
               </ul>
             </div>

@@ -462,13 +462,13 @@ const Browser = ({ isDarkMode }) => {
                 <div className="grid sm:grid-cols-2 gap-4">
                   {certs.map((cert, i) => (
                     <FadeInSection key={i} delay={i * 100}>
-                      <div className="flex items-center gap-4 p-5 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
+                      <a href={cert.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-5 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 cursor-pointer">
                         <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
                           style={{ background: `linear-gradient(135deg, ${['#E95420','#77216f','#3468d5','#27AE60'][i % 4]}, ${['#ff7843','#a855f7','#60a5fa','#34d399'][i % 4]})` }}>
                           <Award size={18} className="text-white" />
                         </div>
-                        <div className="text-sm font-medium text-slate-800">{cert}</div>
-                      </div>
+                        <div className="text-sm font-medium text-slate-800">{cert.name}</div>
+                      </a>
                     </FadeInSection>
                   ))}
                 </div>

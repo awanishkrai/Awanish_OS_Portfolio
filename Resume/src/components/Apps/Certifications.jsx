@@ -1,26 +1,9 @@
 import React from 'react';
 import { FileText } from 'lucide-react';
-
-const CERT_FILES = [
-  {
-    name: 'Computer Communications.pdf',
-    url: 'https://www.coursera.org/account/accomplishments/verify/UTO26UAYFC93',
-  },
-  {
-    name: 'TCP-IP and Advanced Topics.pdf',
-    url: 'https://www.coursera.org/account/accomplishments/verify/GVT4SPYKZLWG',
-  },
-  {
-    name: 'Bits and Bytes of Networking.pdf',
-    url: 'https://www.coursera.org/account/accomplishments/verify/U8OJRBPC2YWU',
-  },
-  {
-    name: 'Networking Specialization.pdf',
-    url: 'https://www.coursera.org/account/accomplishments/specialization/VGVH7V0F8RH8',
-  },
-];
+import { PORTFOLIO_DATA } from '../../constants/portfolioData';
 
 const Certifications = ({ isDarkMode }) => {
+  const { certifications } = PORTFOLIO_DATA;
   const bg = isDarkMode ? 'bg-[#0d1117] text-slate-200' : 'bg-white text-slate-800';
 
   const openFile = (url) => {
@@ -39,7 +22,7 @@ const Certifications = ({ isDarkMode }) => {
 
       <div className="flex-1 p-6 overflow-auto">
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-          {CERT_FILES.map((file) => (
+          {certifications.map((file) => (
             <button
               key={file.name}
               onClick={() => openFile(file.url)}

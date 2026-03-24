@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { PORTFOLIO_DATA } from '../../constants/portfolioData';
 import { Folder, FileText, Home, Download, Github as GithubIcon, HardDrive, FileJson, Code } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 const Projects = ({ isDarkMode }) => {
   const { projects } = PORTFOLIO_DATA || { projects: [] };
   const [currentPath, setCurrentPath] = useState('/home/visitor/Projects');
   const [selectedFolder, setSelectedFolder] = useState(null);
+  const [viewingReadme, setViewingReadme] = useState(false);
 
   const handleOpenFolder = (project) => {
     setSelectedFolder(project);
@@ -13,16 +16,20 @@ const Projects = ({ isDarkMode }) => {
   };
 
   const handleNavigateUp = () => {
+    if (viewingReadme) {
+      setViewingReadme(false);
+      const folderName = selectedFolder.name.toLowerCase().replace(/\s+/g, '-');
+      setCurrentPath(`/home/visitor/Projects/${folderName}`);
+      return;
+    }
     setSelectedFolder(null);
     setCurrentPath('/home/visitor/Projects');
   };
 
   const handleOpenReadme = (project) => {
-    window.dispatchEvent(new CustomEvent('open-readme', { detail: project }));
-    // Try to trigger the window open - typically we'd pass openWindow down, 
-    // but for now we expect the parent App to listen to the event or we trigger a click on the Taskbar
-    const event = new CustomEvent('app-request', { detail: 'resume' });
-    window.dispatchEvent(event);
+    setViewingReadme(true);
+    const folderName = project.name.toLowerCase().replace(/\s+/g, '-');
+    setCurrentPath(`/home/visitor/Projects/${folderName}/README.md`);
   };
 
   return (
@@ -94,6 +101,15 @@ const Projects = ({ isDarkMode }) => {
                   </span>
                 </div>
               ))}
+            </div>
+          ) : viewingReadme ? (
+            // Readme View
+            <div className={`p-6 rounded-lg ${isDarkMode ? 'bg-black/20' : 'bg-white'}`}>
+              <div className={`prose prose-sm max-w-none ${isDarkMode ? 'prose-invert' : ''}`}>
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {selectedFolder.readme || "_No README provided._"}
+                </ReactMarkdown>
+              </div>
             </div>
           ) : (
             // Inside Folder View

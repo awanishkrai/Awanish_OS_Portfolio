@@ -258,6 +258,12 @@ export default function App() {
           className="absolute inset-0 w-full h-full object-cover -z-10 pointer-events-none select-none"
           draggable={false}
         />
+        
+        {/* Wallpaper Text/Watermark */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none select-none z-0 text-center">
+          <h1 className="text-5xl md:text-7xl font-bold text-white/80 tracking-widest drop-shadow-2xl">Awanish Kumar Rai</h1>
+          <p className="text-xl md:text-3xl font-medium text-white/70 tracking-[0.4em] mt-4 uppercase drop-shadow-xl">Competitive Programmer</p>
+        </div>
 
         {/* Desktop Components */}
         <DesktopContextMenu
