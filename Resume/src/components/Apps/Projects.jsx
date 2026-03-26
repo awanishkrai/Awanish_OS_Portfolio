@@ -146,6 +146,15 @@ const Projects = ({ isDarkMode }) => {
               </div>
 
               <div className="flex-1 min-w-[220px] rounded-xl border border-white/10 bg-black/10 p-4 space-y-2">
+                {selectedFolder.image && (
+                  <div className="overflow-hidden rounded-lg mb-3 border border-white/5">
+                    <img
+                      src={selectedFolder.image}
+                      alt={selectedFolder.name}
+                      className="w-full h-40 object-cover object-top hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                )}
                 <div className="text-sm font-semibold text-white/90">
                   {selectedFolder.name}
                 </div>

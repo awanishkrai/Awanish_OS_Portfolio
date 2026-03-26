@@ -2,6 +2,44 @@ import React from 'react';
 import { Trophy, ExternalLink, Star, Target, Activity } from 'lucide-react';
 import { cpStats } from '../../constants/cpData';
 
+const RatingGraph = ({ data, color }) => {
+  if (!data || data.length === 0) return null;
+  
+  const width = 200;
+  const height = 60;
+  
+  const ratings = data.map(d => d[1]);
+  const minRating = Math.min(...ratings);
+  const maxRating = Math.max(...ratings);
+  const range = maxRating - minRating || 1;
+  const dx = width / (data.length - 1 || 1);
+  
+  const points = data.map((d, i) => {
+    const x = i * dx;
+    const y = height - ((d[1] - minRating) / range) * height;
+    return `${x},${y}`;
+  }).join(' ');
+
+  const pathD = `M ${points}`;
+  const fillPathD = `M ${points} L ${width},${height} L 0,${height} Z`;
+
+  return (
+    <div className="absolute bottom-16 left-0 w-full h-[60px] opacity-30 pointer-events-none overflow-hidden scale-y-110">
+      <svg width="100%" height="100%" preserveAspectRatio="none" viewBox={`0 0 ${width} ${height}`}>
+        <defs>
+          <linearGradient id={`gradient-${color}`} x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stopColor={color} stopOpacity="0.5" />
+            <stop offset="100%" stopColor={color} stopOpacity="0" />
+          </linearGradient>
+        </defs>
+        <path d={fillPathD} fill={`url(#gradient-${color})`} />
+        <path d={pathD} fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </div>
+  );
+};
+
+
 const ActivityHeatmap = ({ isDarkMode }) => {
   const dailyCounts = {};
   let maxCount = 0;
@@ -148,6 +186,10 @@ const Competitive = ({ isDarkMode }) => {
                 </div>
               </div>
             </div>
+            
+            {cpStats.leetcode.ratingHistory && (
+              <RatingGraph data={cpStats.leetcode.ratingHistory} color="#eab308" />
+            )}
           </div>
 
           {/* Codeforces */}
@@ -167,6 +209,9 @@ const Competitive = ({ isDarkMode }) => {
                 <span className={`text-xs font-medium ${textSecondary}`}>Peak {cpStats.codeforces.maxRating}</span>
               </div>
             </div>
+            {cpStats.codeforces.ratingHistory && (
+              <RatingGraph data={cpStats.codeforces.ratingHistory} color="#3b82f6" />
+            )}
             <div className={`mt-8 pt-4 border-t ${isDarkMode ? 'border-white/10' : 'border-slate-200'} z-10 flex justify-between items-end`}>
                <span className={`text-xs uppercase tracking-widest font-bold ${textSecondary}`}>Solved</span>
                <span className={`font-black text-2xl leading-none ${textPrimary}`}>{cpStats.codeforces.solved}</span>
@@ -231,6 +276,14 @@ const Competitive = ({ isDarkMode }) => {
                   <ExternalLink size={14} className={`${textSecondary} group-hover:text-sky-500`} />
                 </div>
                 <div className="text-3xl font-black text-white z-10">{cpStats.interviewbit.solved} <span className={`text-[10px] uppercase font-bold tracking-widest ${textSecondary}`}>Solved</span></div>
+             </div>
+             <div className={`flex-1 rounded-3xl border p-5 pl-6 flex flex-col justify-center cursor-pointer group transition-all duration-300 ${cardBg} hover:border-orange-500/50 hover:shadow-[0_0_20px_rgba(249,115,22,0.15)] relative overflow-hidden`} onClick={() => open('https://cses.fi/user/343256')}>
+                <div className="absolute top-0 right-0 w-24 h-24 bg-orange-500/10 blur-[30px] rounded-full -mr-10 -mt-10 transition-all group-hover:bg-orange-500/20" />
+                <div className="flex items-center justify-between mb-2 z-10">
+                  <h3 className={`font-black text-orange-500 tracking-wide`}>CSES</h3>
+                  <ExternalLink size={14} className={`${textSecondary} group-hover:text-orange-500`} />
+                </div>
+                <div className="text-3xl font-black text-white z-10">{cpStats.cses.solved} <span className={`text-[10px] uppercase font-bold tracking-widest ${textSecondary}`}>Solved</span></div>
              </div>
           </div>
 
