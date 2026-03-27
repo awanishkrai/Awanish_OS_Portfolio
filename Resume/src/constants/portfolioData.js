@@ -102,6 +102,7 @@ export const PORTFOLIO_DATA = {
         "Add and manage books collaboratively",
       ],
       github: "https://github.com/awanishkrai/Collaborative-Book-Platform",
+      readme: `# Adhyay\n\n**Collaborative Book Platform**\n\nAdhyay is a comprehensive web-based platform designed for book enthusiasts to explore vast collections of books and participate in club discussions. It provides a collaborative environment to add and manage books together.\n\n## Features\n- **User Authentication**: Secure login and personalized readlists.\n- **Book Exploration**: Advanced search and discovery of a wide range of books.\n- **Club Discussions**: Engage with other readers in dedicated book clubs.\n- **Collaborative Management**: Users can contribute by adding and managing book entries.\n\n## Technologies Used\n- PHP\n- HTML & CSS\n- JavaScript\n`,
     },
     {
       name: "Neo Gamified Learning",
