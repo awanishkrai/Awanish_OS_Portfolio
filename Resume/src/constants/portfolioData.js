@@ -94,14 +94,14 @@ export const PORTFOLIO_DATA = {
       name: "Adhyay",
       description:
         "Collaborative book platform for exploring a vast collection of books and joining club discussions.",
-      technologies: "Django, Python, HTML, CSS, JavaScript",
+      technologies: "PHP, HTML, CSS, JavaScript",
       image: "/projects/adhyay.png",
       highlights: [
         "User authentication with personalized readlists",
         "Book search and exploration with club discussions",
         "Add and manage books collaboratively",
       ],
-      github: "https://github.com/awanishkrai",
+      github: "https://github.com/awanishkrai/Collaborative-Book-Platform",
     },
     {
       name: "Neo Gamified Learning",
@@ -114,7 +114,7 @@ export const PORTFOLIO_DATA = {
         "Live missions and performance pulse analytics",
         "Leaderboard and learning streak mechanics",
       ],
-      github: "https://github.com/awanishkrai",
+      github: "https://github.com/vaibhav1826/Education_Platform_Gamified_Learning/commits?author=awanishkrai",
     },
     {
       name: "AlgoPhoto",
